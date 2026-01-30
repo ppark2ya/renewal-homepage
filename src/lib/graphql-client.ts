@@ -1,38 +1,68 @@
-import { GraphQLClient } from 'graphql-request';
+import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
 
 const endpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || '';
 
 if (!endpoint && process.env.NODE_ENV === 'development') {
-  console.warn('[GraphQL] NEXT_PUBLIC_GRAPHQL_ENDPOINT is not defined');
+  console.warn('[Apollo] NEXT_PUBLIC_GRAPHQL_ENDPOINT is not defined');
 }
 
 /**
- * GraphQL 클라이언트 인스턴스
+ * Apollo Client HTTP Link
+ */
+const httpLink = new HttpLink({
+  uri: endpoint,
+});
+
+/**
+ * Apollo Client 인스턴스 (Client Components용)
  *
  * @example
- * ```ts
- * import { graphqlClient } from '@/lib/graphql-client';
+ * ```tsx
+ * import { apolloClient } from '@/lib/graphql-client';
+ * import { ApolloProvider } from '@apollo/client';
  *
- * const data = await graphqlClient.request(query, variables);
+ * <ApolloProvider client={apolloClient}>
+ *   <App />
+ * </ApolloProvider>
  * ```
  */
-export const graphqlClient = new GraphQLClient(endpoint, {
-  headers: {
-    // 필요시 인증 헤더 추가
-    // 'Authorization': `Bearer ${token}`,
+export const apolloClient = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-and-network',
+    },
+    query: {
+      fetchPolicy: 'network-only',
+      errorPolicy: 'all',
+    },
+    mutate: {
+      errorPolicy: 'all',
+    },
   },
 });
 
 /**
- * 인증된 GraphQL 클라이언트 생성
+ * 인증된 Apollo Client 생성 (Server Components용)
  *
  * @param token - Bearer 토큰
- * @returns 인증 헤더가 포함된 GraphQL 클라이언트
+ * @returns 인증 헤더가 포함된 Apollo Client
  */
-export function createAuthenticatedClient(token: string): GraphQLClient {
-  return new GraphQLClient(endpoint, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+export function createAuthenticatedClient(token: string) {
+  return new ApolloClient({
+    link: new HttpLink({
+      uri: endpoint,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+    cache: new InMemoryCache(),
+    defaultOptions: {
+      query: {
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
+      },
     },
   });
 }
