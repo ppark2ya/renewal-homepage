@@ -9,7 +9,20 @@
       "Bash(npm install)",
       "WebSearch",
       "Bash(npm install:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nSet up Next.js 16 project with TypeScript, TailwindCSS, and React Compiler\n\n- Initialize Next.js 16.1.6 with App Router \\(src/app\\), TypeScript, TailwindCSS v4\n- Enable React Compiler \\(babel-plugin-react-compiler\\) for automatic memoization\n- Add Vercel react-best-practices agent skill \\(.claude/skills\\)\n- Configure path alias @/* -> ./src/*\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "WebFetch(domain:www.figma.com)",
+      "Bash(claude mcp add:*)",
+      "Bash(claude mcp list:*)",
+      "mcp__figma-remote-mcp__get_metadata",
+      "Bash(python -c:*)",
+      "Bash(python3:*)",
+      "Bash(node -e:*)",
+      "mcp__figma-remote-mcp__get_screenshot",
+      "mcp__figma-remote-mcp__get_design_context",
+      "Bash(npm run dev:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd responsive homepage UI based on Figma design\n\n- Create 10 section components \\(Hero, Category, Product, Review, Hotspot, ExchangeRate, Event, CTA\\) + Header/Footer layout\n- Implement 5-breakpoint responsive design \\(375/768/980/1279/1920px\\)\n- Set up Pretendard font, design tokens, and Tailwind CSS v4 theme\n- Mobile-first approach with hamburger menu, carousels, and adaptive grids\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ]
   }
 }
