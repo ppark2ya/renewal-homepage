@@ -74,9 +74,9 @@ function CategoryIcon({ icon }: { icon: string }) {
 export default function CategorySection() {
   return (
     <section className="w-full bg-white py-8 md:py-[100px]">
-      <div className="mx-auto max-w-[1280px] px-4">
+      <div className="w-full px-4 xl:px-[360px]">
         {/* Desktop: 5 cards in a row */}
-        <div className="hidden gap-[10px] md:flex">
+        <div className="hidden gap-[10px] lg:flex">
           {categories.map((cat) => (
             <div
               key={cat.id}
@@ -105,8 +105,8 @@ export default function CategorySection() {
           ))}
         </div>
 
-        {/* Mobile: 2x2 grid + 1 full width */}
-        <div className="grid grid-cols-2 gap-3 md:hidden">
+        {/* Mobile/Tablet: 2x2 grid + 1 full width */}
+        <div className="grid grid-cols-2 gap-3 lg:hidden">
           {categories
             .filter((c) => !c.isWide)
             .map((cat) => (

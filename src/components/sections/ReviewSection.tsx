@@ -67,20 +67,20 @@ export default function ReviewSection() {
 
   return (
     <section className="w-full bg-[#FFD900] py-8 md:py-[100px]">
-      <div className="mx-auto max-w-[1280px] px-4">
+      <div className="w-full px-4 xl:px-[360px]">
         <h2 className="mb-6 text-center text-[24px] font-bold leading-[1.3] text-[#111] md:mb-[50px] md:text-[40px] md:leading-[60px]">
           Why Everyone Chooses Dozn Exchange
         </h2>
 
         {/* Desktop: 3x2 grid */}
-        <div className="hidden grid-cols-3 gap-4 md:grid">
+        <div className="hidden grid-cols-3 gap-4 lg:grid">
           {reviews.map((review) => (
             <ReviewCard key={review.id} review={review} />
           ))}
         </div>
 
-        {/* Mobile: Single card carousel */}
-        <div className="md:hidden">
+        {/* Mobile/Tablet: Single card carousel */}
+        <div className="lg:hidden">
           <ReviewCard review={reviews[currentIndex]} />
           {/* Pager dots */}
           <div className="mt-4 flex justify-center gap-2">

@@ -52,7 +52,7 @@ export default function HotspotSection() {
 
   return (
     <section className="w-full bg-white py-8 md:py-[100px]">
-      <div className="mx-auto max-w-[1280px] px-4">
+      <div className="w-full px-4 xl:px-[360px]">
         <h2 className="mb-6 text-center text-[24px] font-bold leading-[1.3] text-[#111] md:mb-10 md:text-[40px] md:leading-[60px]">
           Kiosks in Hotspot
         </h2>
