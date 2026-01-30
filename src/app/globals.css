@@ -51,7 +51,7 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-.scroll-snap-x > * {
+.scroll-snap-x>* {
   scroll-snap-align: start;
 }
 
