@@ -12,7 +12,7 @@ export default function HeroSection() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex w-full flex-col items-center gap-4 px-4 text-center text-[#111] md:gap-[30px] md:px-0">
+      <div className="relative z-10 flex w-full max-w-[1280px] flex-col items-center gap-4 px-4 text-center text-[#111] md:gap-[30px]">
         <p className="text-[18px] leading-normal md:text-[30px] md:leading-[36px]">
           At the best exchange rate at the moment you want
         </p>

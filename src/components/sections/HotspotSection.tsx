@@ -51,8 +51,8 @@ export default function HotspotSection() {
   const [activeLocation, setActiveLocation] = useState("All");
 
   return (
-    <section className="w-full bg-[#F5F5F5] py-8 md:py-[100px]">
-      <div className="mx-auto max-w-[1920px] px-4 md:px-10 xl:px-[320px]">
+    <section className="w-full bg-white py-8 md:py-[100px]">
+      <div className="mx-auto max-w-[1280px] px-4">
         <h2 className="mb-6 text-center text-[24px] font-bold leading-[1.3] text-[#111] md:mb-10 md:text-[40px] md:leading-[60px]">
           Kiosks in Hotspot
         </h2>
@@ -63,11 +63,10 @@ export default function HotspotSection() {
             <button
               key={loc}
               onClick={() => setActiveLocation(loc)}
-              className={`rounded-full border px-6 py-3 text-[14px] transition-colors ${
-                activeLocation === loc
-                  ? "border-[#111] bg-[#111] text-white"
-                  : "border-[#D4D4D4] bg-white text-[#111] hover:border-[#111]"
-              }`}
+              className={`rounded-full border px-6 py-3 text-[14px] transition-colors ${activeLocation === loc
+                ? "border-[#111] bg-[#111] text-white"
+                : "border-[#D4D4D4] bg-white text-[#111] hover:border-[#111]"
+                }`}
             >
               {loc}
             </button>
@@ -80,11 +79,10 @@ export default function HotspotSection() {
             <button
               key={loc}
               onClick={() => setActiveLocation(loc)}
-              className={`text-[13px] transition-colors ${
-                activeLocation === loc
-                  ? "font-semibold text-[#111]"
-                  : "text-[#111]/50"
-              }`}
+              className={`text-[13px] transition-colors ${activeLocation === loc
+                ? "font-semibold text-[#111]"
+                : "text-[#111]/50"
+                }`}
             >
               {loc}
             </button>

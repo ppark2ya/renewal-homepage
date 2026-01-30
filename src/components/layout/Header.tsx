@@ -20,7 +20,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm">
-      <div className="mx-auto flex h-[60px] max-w-[1920px] items-center justify-between px-4 md:px-10 xl:px-[320px]">
+      <div className="mx-auto flex h-[60px] max-w-[1280px] items-center justify-between px-4">
         {/* Logo */}
         <Link href="/" className="flex shrink-0 items-center">
           <span className="text-xl font-bold text-[#111]">dozn</span>

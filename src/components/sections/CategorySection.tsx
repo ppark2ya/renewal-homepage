@@ -7,13 +7,13 @@ const categories = [
   },
   {
     id: "location",
-    label: "Kiosk\nLocation",
+    label: "ATM\nLocation",
     icon: "map-pin",
     hasBadge: false,
   },
   {
     id: "exchange",
-    label: "KRW → Foreign Currency",
+    label: "Online\nForeign Currency",
     icon: "exchange",
     hasBadge: true,
     badgeText: "Up to 100% discount",
@@ -21,13 +21,13 @@ const categories = [
   },
   {
     id: "rate",
-    label: "Real-Time\nExchange Rate",
+    label: "Kiosk\nExchange Rate",
     icon: "trending-up",
     hasBadge: false,
   },
   {
     id: "card",
-    label: "THE Free\nPrepaid Card",
+    label: "Tax Free\nRefund Code",
     icon: "credit-card",
     hasBadge: false,
   },
@@ -74,7 +74,7 @@ function CategoryIcon({ icon }: { icon: string }) {
 export default function CategorySection() {
   return (
     <section className="w-full bg-white py-8 md:py-[100px]">
-      <div className="mx-auto max-w-[1920px] px-4 md:px-10 xl:px-[320px]">
+      <div className="mx-auto max-w-[1280px] px-4">
         {/* Desktop: 5 cards in a row */}
         <div className="hidden gap-[10px] md:flex">
           {categories.map((cat) => (

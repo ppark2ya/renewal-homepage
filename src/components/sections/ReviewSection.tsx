@@ -66,8 +66,8 @@ export default function ReviewSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
-    <section className="w-full bg-white py-8 md:py-[100px]">
-      <div className="mx-auto max-w-[1920px] px-4 md:px-10 xl:px-[320px]">
+    <section className="w-full bg-[#FFD900] py-8 md:py-[100px]">
+      <div className="mx-auto max-w-[1280px] px-4">
         <h2 className="mb-6 text-center text-[24px] font-bold leading-[1.3] text-[#111] md:mb-[50px] md:text-[40px] md:leading-[60px]">
           Why Everyone Chooses Dozn Exchange
         </h2>
@@ -88,11 +88,10 @@ export default function ReviewSection() {
               <button
                 key={i}
                 onClick={() => setCurrentIndex(i)}
-                className={`h-2 rounded-full transition-all ${
-                  i === currentIndex
-                    ? "w-6 bg-[#111]"
-                    : "w-2 bg-[#111]/20"
-                }`}
+                className={`h-2 rounded-full transition-all ${i === currentIndex
+                  ? "w-6 bg-[#111]"
+                  : "w-2 bg-[#111]/20"
+                  }`}
                 aria-label={`Review ${i + 1}`}
               />
             ))}
