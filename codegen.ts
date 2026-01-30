@@ -11,6 +11,12 @@ const config: CodegenConfig = {
   generates: {
     'src/generated/graphql.ts': {
       plugins: [
+        {
+          add: {
+            content: `/* eslint-disable */
+// @ts-nocheck`,
+          },
+        },
         'typescript',
         'typescript-operations',
         'typescript-react-apollo',
@@ -32,7 +38,7 @@ const config: CodegenConfig = {
         // Apollo Client v4 호환
         apolloClientVersion: 4,
         apolloReactHooksImportFrom: '@apollo/client/react',
-        apolloReactCommonImportFrom: '@apollo/client',
+        apolloReactCommonImportFrom: '../lib/apollo-shim',
 
         // 커스텀 스칼라 타입 매핑 (필요시 추가)
         scalars: {
