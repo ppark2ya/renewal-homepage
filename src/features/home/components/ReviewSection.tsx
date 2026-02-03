@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import { Button } from "@/components/ui/button";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
@@ -56,9 +57,9 @@ function FlagIcon({ src }: { src: string }) {
       <ImageWithFallback
         src={src}
         alt="Country flag"
-        fill
+        width={24}
+        height={24}
         className="object-cover"
-        sizes="24px"
         fallbackType="icon"
       />
     </div>
@@ -169,10 +170,12 @@ export default function ReviewSection() {
           {/* 페이저 dots */}
           <div className="mt-4 flex justify-center gap-2">
             {reviews.map((_, i) => (
-              <button
+              <Button
                 key={i}
+                variant="ghost"
+                size="icon"
                 onClick={() => scrollTo(i)}
-                className={`h-2 rounded-full transition-all ${
+                className={`h-2 rounded-full p-0 transition-all hover:bg-[#111]/30 ${
                   i === selectedIndex ? "w-6 bg-[#111]" : "w-2 bg-[#111]/20"
                 }`}
                 aria-label={`Review ${i + 1}`}

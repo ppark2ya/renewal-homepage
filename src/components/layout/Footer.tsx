@@ -1,8 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { ChevronDown } from "lucide-react";
 
 const familySites = [
   { name: "Dozn Homepage", url: "https://dozn.co.kr" },
@@ -12,12 +19,10 @@ const familySites = [
 ];
 
 export default function Footer() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   return (
     <footer className="w-full bg-[#F6F8F9]">
       {/* Container: h-[300px] px-[320px] py-[40px] w-[1920px] */}
-      <div className="mx-auto flex h-auto w-full max-w-[1920px] flex-col items-start justify-between gap-6 px-4 py-8 md:h-[300px] md:flex-row 2xl:px-[320px] md:py-[40px]">
+      <div className="mx-auto flex h-auto w-full max-w-[1920px] flex-col items-start justify-between gap-6 px-4 py-8 md:h-[300px] md:flex-row md:py-[40px] 2xl:px-[320px]">
         {/* Left: Logo & Company Info - gap-[20px] */}
         <div className="flex flex-col gap-[20px]">
           {/* Logo: h-[30px] w-[69px] */}
@@ -35,7 +40,10 @@ export default function Footer() {
           {/* Company Info: text-[14px] leading-[30px] tracking-[-0.7px] text-[#717895] */}
           <div className="flex flex-col text-[14px] leading-[30px] tracking-[-0.7px] text-[#717895]">
             <p>주소 : 서울시 서초구 강남대로 465, B동 16층 (서초동 1303-22, 강남교보타워)</p>
-            <p>고객센터 : 1566-0979 ｜ 사업자등록번호 : 378-88-00880 ｜ 통신판매업신고 : 2018-서울서초-0267호</p>
+            <p>
+              고객센터 : 1566-0979 ｜ 사업자등록번호 : 378-88-00880 ｜ 통신판매업신고 :
+              2018-서울서초-0267호
+            </p>
           </div>
 
           {/* Links: gap-[32px] text-[14px] leading-[1.5] text-[#111] */}
@@ -55,35 +63,23 @@ export default function Footer() {
         </div>
 
         {/* Right: Family Site dropdown - w-[200px] */}
-        <div className="relative">
-          <button
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="flex w-[200px] items-center justify-between rounded-[8px] border border-[#D8DCE9] bg-white px-[14px] py-[10px]"
-          >
-            <span className="text-[14px] leading-[20px] text-[#111]">Family Site</span>
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              className={`rotate-180 transition-transform ${isDropdownOpen ? "rotate-0" : ""}`}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              className="flex w-[200px] items-center justify-between rounded-[8px] border border-[#D8DCE9] bg-white px-[14px] py-[10px] hover:bg-white"
             >
-              <path
-                d="M6 9L12 15L18 9"
-                stroke="#111"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-
-          {/* Dropdown menu */}
-          {isDropdownOpen && (
-            <div className="absolute right-0 top-full z-10 mt-1 w-[200px] rounded-[8px] border border-[#D8DCE9] bg-white shadow-lg">
-              {familySites.map((site) => (
+              <span className="text-[14px] leading-[20px] text-[#111]">Family Site</span>
+              <ChevronDown className="h-5 w-5 text-[#111]" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="w-[200px] rounded-[8px] border border-[#D8DCE9] bg-white shadow-lg"
+          >
+            {familySites.map((site) => (
+              <DropdownMenuItem key={site.name} asChild>
                 <a
-                  key={site.name}
                   href={site.url}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -91,10 +87,10 @@ export default function Footer() {
                 >
                   {site.name}
                 </a>
-              ))}
-            </div>
-          )}
-        </div>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </footer>
   );

@@ -3,6 +3,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import { Menu, X, Globe } from "lucide-react";
 
 const navItems = [
   { label: "Location", href: "/location" },
@@ -25,7 +28,6 @@ const rightNavItems = [
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isNavHovered, setIsNavHovered] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeNavItem, setActiveNavItem] = useState<string | null>(null);
@@ -41,44 +43,20 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Handle menu open animation
-  useEffect(() => {
-    if (isMenuOpen) {
-      // Small delay to trigger animation after mount
-      requestAnimationFrame(() => {
-        setIsMenuVisible(true);
-      });
-      // Prevent body scroll when menu is open
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isMenuOpen]);
-
-  const handleCloseMenu = () => {
-    setIsMenuVisible(false);
-    // Wait for animation to complete before unmounting
-    setTimeout(() => {
-      setIsMenuOpen(false);
-    }, 300);
-  };
-
   return (
     <header className="fixed top-0 z-50 w-full">
       {/* Main header bar */}
       <div
-        className={`w-full backdrop-blur-sm transition-all duration-300 ${isScrolled || isNavHovered ? "bg-white/[0.97]" : "bg-transparent"} ${isScrolled ? "shadow-md" : ""}`}
+        className={`w-full transition-all duration-300 ${isScrolled || isNavHovered ? "bg-white/[0.97]" : "bg-transparent"} ${isScrolled ? "shadow-md" : ""}`}
         onMouseLeave={() => {
           setIsNavHovered(false);
           setActiveNavItem(null);
         }}
       >
         {/* Container */}
-        <div className={`mx-auto flex w-full items-center justify-between px-4 transition-all duration-300 md:px-8 lg:px-16 xl:px-24 2xl:px-[320px] ${isNavHovered ? "h-[50px]" : "h-[60px]"}`}>
+        <div
+          className={`mx-auto flex w-full items-center justify-between px-4 transition-all duration-300 md:px-8 lg:px-16 xl:px-24 2xl:px-[320px] ${isNavHovered ? "h-[50px]" : "h-[60px]"}`}
+        >
           {/* Logo */}
           <Link href="/" className="relative flex h-[30px] w-[90px] shrink-0 items-center">
             <ImageWithFallback
@@ -119,57 +97,58 @@ export default function Header() {
               </Link>
             ))}
             {/* Globe Icon */}
-            <button
-              className="flex size-6 items-center justify-center text-[#111]"
-              aria-label="Language"
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <line x1="2" y1="12" x2="22" y2="12" />
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-              </svg>
-            </button>
+            <Button variant="ghost" size="icon" className="size-6" aria-label="Language">
+              <Globe className="h-5 w-5 text-[#111]" />
+            </Button>
           </div>
 
-          {/* Hamburger - Mobile */}
-          <button
-            className="flex size-10 items-center justify-center lg:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Menu"
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+          {/* Hamburger - Mobile using Sheet */}
+          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="size-10 lg:hidden"
+                aria-label="Menu"
+              >
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent
+              side="right"
+              className="flex w-full flex-col border-none bg-black p-0"
             >
-              {isMenuOpen ? (
-                <>
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </>
-              ) : (
-                <>
-                  <line x1="3" y1="6" x2="21" y2="6" />
-                  <line x1="3" y1="12" x2="21" y2="12" />
-                  <line x1="3" y1="18" x2="21" y2="18" />
-                </>
-              )}
-            </svg>
-          </button>
+              <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+              {/* Navigation - Centered */}
+              <nav className="flex flex-1 flex-col items-center justify-center gap-8 px-[30px] pb-[60px]">
+                {navItems.map((item) => (
+                  <div key={item.label} className="flex flex-col items-center gap-4">
+                    <Link
+                      href={item.href}
+                      className="text-[16px] font-bold capitalize leading-[30px] text-white transition-colors duration-200 hover:text-[#BBC4D3]"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                    {item.subItems && (
+                      <div className="flex flex-col items-center gap-4">
+                        {item.subItems.map((subItem) => (
+                          <Link
+                            key={subItem.label}
+                            href={subItem.href}
+                            className="text-[14px] leading-[20px] text-[#BBC4D3] transition-all duration-300 ease-out hover:text-white"
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            {subItem.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
 
         {/* Desktop Cover Dropdown */}
@@ -190,93 +169,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-
-      {/* Mobile Menu - Full Screen Overlay */}
-      {isMenuOpen && (
-        <div
-          className={`fixed inset-0 z-50 flex flex-col bg-black transition-opacity duration-300 ease-out lg:hidden ${
-            isMenuVisible ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          {/* Header with close button */}
-          <div
-            className={`flex h-[60px] shrink-0 items-center justify-end px-10 py-8 transition-all duration-300 ease-out ${
-              isMenuVisible
-                ? "translate-y-0 opacity-100"
-                : "-translate-y-4 opacity-0"
-            }`}
-            style={{ transitionDelay: isMenuVisible ? "100ms" : "0ms" }}
-          >
-            <button
-              className="flex size-6 items-center justify-center text-white transition-transform duration-200 hover:scale-110"
-              onClick={handleCloseMenu}
-              aria-label="Close menu"
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
-          </div>
-
-          {/* Navigation - Centered */}
-          <nav className="flex flex-1 flex-col items-center justify-center gap-8 pb-[60px] px-[30px]">
-            {navItems.map((item, index) => (
-              <div
-                key={item.label}
-                className={`flex flex-col items-center gap-4 transition-all duration-300 ease-out ${
-                  isMenuVisible
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-6 opacity-0"
-                }`}
-                style={{
-                  transitionDelay: isMenuVisible ? `${150 + index * 50}ms` : "0ms",
-                }}
-              >
-                <Link
-                  href={item.href}
-                  className="text-[16px] font-bold capitalize leading-[30px] text-white transition-colors duration-200 hover:text-[#BBC4D3]"
-                  onClick={handleCloseMenu}
-                >
-                  {item.label}
-                </Link>
-                {item.subItems && (
-                  <div className="flex flex-col items-center gap-4">
-                    {item.subItems.map((subItem, subIndex) => (
-                      <Link
-                        key={subItem.label}
-                        href={subItem.href}
-                        className={`text-[14px] leading-[20px] text-[#BBC4D3] transition-all duration-300 ease-out hover:text-white ${
-                          isMenuVisible
-                            ? "translate-y-0 opacity-100"
-                            : "translate-y-4 opacity-0"
-                        }`}
-                        style={{
-                          transitionDelay: isMenuVisible
-                            ? `${200 + index * 50 + subIndex * 30}ms`
-                            : "0ms",
-                        }}
-                        onClick={handleCloseMenu}
-                      >
-                        {subItem.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </nav>
-        </div>
-      )}
     </header>
   );
 }

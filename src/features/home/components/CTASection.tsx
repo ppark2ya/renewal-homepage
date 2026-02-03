@@ -1,13 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import ServiceInquiryModal from "@/features/inquiry/components/ServiceInquiryModal";
-import NotificationAlertModal from "@/components/ui/NotificationAlertModal";
 
 export default function CTASection() {
-    const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
-    const [isPartnershipModalOpen, setIsPartnershipModalOpen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
+  const [isPartnershipModalOpen, setIsPartnershipModalOpen] = useState(false);
 
   return (
     <section className="w-full overflow-hidden bg-[#FFD300]">
@@ -19,36 +18,33 @@ export default function CTASection() {
         </h2>
 
         {/* Buttons: gap-[16px] */}
-        <div
-
-            className="flex w-full flex-col gap-4 lg:w-auto lg:flex-row lg:justify-center lg:gap-[16px]">
-          {/* Button: h-[50px] px-[30px] py-[10px] rounded-[100px] */}
-          <button
-              onClick={() => setIsPartnershipModalOpen(true)}
-              className="flex h-[50px] items-center justify-center rounded-[100px] border border-[#111] bg-[#111] px-6 text-[14px] font-medium text-white transition-colors hover:bg-[#111] cursor-pointer md:px-[30px] md:text-[16px]">
-              Partnership / Rental Inquiries
-          </button>
-          <button
-              onClick={() => setIsServiceModalOpen(true)}
-            className="flex h-[50px] items-center justify-center rounded-[100px] border border-[#111] bg-[#111] px-6 text-[14px] font-medium text-white transition-colors cursor-pointer md:px-[30px] md:text-[16px]"
+        <div className="flex w-full flex-col gap-4 lg:w-auto lg:flex-row lg:justify-center lg:gap-[16px]">
+          <Button
+            onClick={() => setIsPartnershipModalOpen(true)}
+            className="h-[50px] rounded-[100px] border border-[#111] bg-[#111] px-6 text-[14px] font-medium text-white hover:bg-[#111]/90 md:px-[30px] md:text-[16px]"
+          >
+            Partnership / Rental Inquiries
+          </Button>
+          <Button
+            onClick={() => setIsServiceModalOpen(true)}
+            className="h-[50px] rounded-[100px] border border-[#111] bg-[#111] px-6 text-[14px] font-medium text-white hover:bg-[#111]/90 md:px-[30px] md:text-[16px]"
           >
             Service Inquiry
-          </button>
+          </Button>
         </div>
       </div>
 
-        <ServiceInquiryModal
-            isOpen={isServiceModalOpen}
-            onClose={() => setIsServiceModalOpen(false)}
-            title={"Service Inquiry"}
-        />
+      <ServiceInquiryModal
+        isOpen={isServiceModalOpen}
+        onClose={() => setIsServiceModalOpen(false)}
+        title={"Service Inquiry"}
+      />
 
       <ServiceInquiryModal
         isOpen={isPartnershipModalOpen}
         onClose={() => setIsPartnershipModalOpen(false)}
         title={"Partnership / Rental Inquiries"}
       />
-
     </section>
   );
 }

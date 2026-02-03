@@ -42,17 +42,13 @@ export default function ProductSection() {
               <div
                   key={brand.name}
                   className="relative flex items-center justify-center"
-                  style={{
-                    width: brand.width * 0.5,
-                    height: brand.height * 0.5,
-                  }}
               >
                 <ImageWithFallback
                     src={brand.logo}
                     alt={brand.name}
-                    fill
+                    width={Math.round(brand.width * 0.5)}
+                    height={Math.round(brand.height * 0.5)}
                     className="object-contain"
-                    sizes="200px"
                 />
               </div>
           ))}

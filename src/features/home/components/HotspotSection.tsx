@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import { Button } from "@/components/ui/button";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
@@ -90,17 +91,18 @@ export default function HotspotSection() {
           {/* Location filters: w-[1200px] gap-[16px] */}
           <div className="flex w-full flex-wrap justify-center gap-3 md:gap-[16px]">
             {locations.map((loc) => (
-              <button
+              <Button
                 key={loc}
+                variant="ghost"
                 onClick={() => setActiveLocation(loc)}
-                className={`h-[40px] cursor-pointer rounded-[100px] px-4 py-2 text-[14px] capitalize transition-colors md:h-[50px] md:px-[30px] md:py-[10px] md:text-[16px] ${
+                className={`h-[40px] rounded-[100px] px-4 py-2 text-[14px] capitalize md:h-[50px] md:px-[30px] md:py-[10px] md:text-[16px] ${
                   activeLocation === loc
-                    ? "border border-[#FFD300] bg-[#FFF2B2] font-bold text-[#111]"
-                    : "bg-[#FFF9DF] font-normal text-[#111]"
+                    ? "border border-[#FFD300] bg-[#FFF2B2] font-bold text-[#111] hover:bg-[#FFF2B2]"
+                    : "bg-[#FFF9DF] font-normal text-[#111] hover:bg-[#FFF2B2]"
                 }`}
               >
                 {loc}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
@@ -140,9 +142,9 @@ export default function HotspotSection() {
 
         {/* See More button */}
         <div className="flex justify-center">
-          <button className="h-[50px] rounded-full border border-[#FFD300] bg-[#FFD300] px-8 text-[14px] font-medium text-[#111] transition-colors hover:bg-[#111] hover:text-white md:text-[16px]">
+          <Button className="h-[50px] rounded-full border border-[#FFD300] bg-[#FFD300] px-8 text-[14px] font-medium text-[#111] hover:bg-[#111] hover:text-white md:text-[16px]">
             View All Kiosks {">>"}
-          </button>
+          </Button>
         </div>
       </div>
     </section>

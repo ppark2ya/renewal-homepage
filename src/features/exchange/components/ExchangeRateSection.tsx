@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ChevronDown } from "lucide-react";
 
 // KRW → Foreign Currency (buy) - 15 cards
 const buyCurrencies = [
@@ -41,22 +44,22 @@ function FlagIcon({ src, code }: { src: string; code: string }) {
       <ImageWithFallback
         src={src}
         alt={code}
-        fill
+        width={36}
+        height={24}
         className="object-cover"
-        sizes="36px"
         fallbackType="icon"
       />
     </div>
   );
 }
 
-type AnimationState = 'idle' | 'opening' | 'closing';
+type AnimationState = "idle" | "opening" | "closing";
 
 function CurrencyCard({
   currency,
   index,
   animationState,
-  totalExtraCards
+  totalExtraCards,
 }: {
   currency: (typeof buyCurrencies)[0];
   index: number;
@@ -70,8 +73,8 @@ function CurrencyCard({
   // Opening: 첫 번째 추가 카드부터 순서대로 (0, 1, 2, ...)
   // Closing: 마지막 추가 카드부터 역순으로 (totalExtraCards-1, totalExtraCards-2, ...)
   const getAnimationDelay = () => {
-    if (!isExtraCard || animationState === 'idle') return undefined;
-    if (animationState === 'opening') {
+    if (!isExtraCard || animationState === "idle") return undefined;
+    if (animationState === "opening") {
       return `${extraCardIndex * 50}ms`;
     } else {
       // 역순: 마지막 카드가 먼저 사라짐
@@ -81,10 +84,10 @@ function CurrencyCard({
   };
 
   const getAnimationClass = () => {
-    if (!isExtraCard) return '';
-    if (animationState === 'opening') return 'animate-fadeSlideIn';
-    if (animationState === 'closing') return 'animate-fadeSlideOut';
-    return '';
+    if (!isExtraCard) return "";
+    if (animationState === "opening") return "animate-fadeSlideIn";
+    if (animationState === "closing") return "animate-fadeSlideOut";
+    return "";
   };
 
   return (
@@ -92,7 +95,7 @@ function CurrencyCard({
       className={`flex w-full flex-col items-center justify-center overflow-hidden rounded-[20px] bg-white ${getAnimationClass()}`}
       style={{
         animationDelay: getAnimationDelay(),
-        animationFillMode: animationState === 'opening' ? 'backwards' : 'forwards'
+        animationFillMode: animationState === "opening" ? "backwards" : "forwards",
       }}
     >
       {/* Rate info: py-[20px] gap-[10px] */}
@@ -123,37 +126,12 @@ function CurrencyCard({
   );
 }
 
-type ExchangeRateChangeType = "buy" | 'sell'
-
-function ExchangeRateChangeButtons({activeTab, setActiveTab}:{
-  activeTab:ExchangeRateChangeType,
-  setActiveTab: (activeTab: ExchangeRateChangeType) => void
-}) {
-  const selectedStyle = "bg-white text-[#111]"
-  const noneSelectedStyle = "bg-transparent text-[#111]/50"
-  return <div className="flex flex-col lg:flex-row items-center w-[300px] lg:w-fit gap-2 lg:gap-0 p-4 lg:p-1 bg-[#FFD300] border border-[#FFD300] rounded-[20px] lg:rounded-full">
-    {/* Tab Button 1 */}
-    <button
-        onClick={() => setActiveTab("buy")}
-        className={`w-full lg:w-auto rounded-full px-6 py-3 lg:px-8 lg:py-2 text-[14px] lg:text-[16px] font-bold transition-colors ${activeTab === "buy" ? selectedStyle : noneSelectedStyle}`}
-    >
-      KRW → Foreign Currency
-    </button>
-
-    {/* Tab Button 2 */}
-    <button
-        onClick={() => setActiveTab("sell")}
-        className={`w-full lg:w-auto rounded-full px-6 py-3 lg:px-8 lg:py-2 text-[14px] lg:text-[16px] font-bold transition-colors ${activeTab === "sell" ? selectedStyle : noneSelectedStyle}`}
-    >
-      Foreign Currency → KRW
-    </button>
-  </div>
-}
+type ExchangeRateChangeType = "buy" | "sell";
 
 export default function ExchangeRateSection() {
-  const [activeTab, setActiveTab] = useState<"buy" | "sell">("buy");
+  const [activeTab, setActiveTab] = useState<ExchangeRateChangeType>("buy");
   const [showAll, setShowAll] = useState(false);
-  const [animationState, setAnimationState] = useState<AnimationState>('idle');
+  const [animationState, setAnimationState] = useState<AnimationState>("idle");
 
   // Get currencies based on active tab
   const currencies = activeTab === "buy" ? buyCurrencies : sellCurrencies;
@@ -167,101 +145,105 @@ export default function ExchangeRateSection() {
     if (!showAll) {
       // Opening
       setShowAll(true);
-      setAnimationState('opening');
+      setAnimationState("opening");
       // Reset animation state after animation completes
       setTimeout(() => {
-        setAnimationState('idle');
-      }, CLOSE_ANIMATION_DURATION + (totalExtraCards * 50));
+        setAnimationState("idle");
+      }, CLOSE_ANIMATION_DURATION + totalExtraCards * 50);
     } else {
       // Closing - play fade out animation first
-      setAnimationState('closing');
+      setAnimationState("closing");
       // After animation completes, hide the cards
       setTimeout(() => {
         setShowAll(false);
-        setAnimationState('idle');
-      }, CLOSE_ANIMATION_DURATION + (totalExtraCards * 50));
+        setAnimationState("idle");
+      }, CLOSE_ANIMATION_DURATION + totalExtraCards * 50);
     }
   };
 
   // Reset when tab changes
-  const handleTabChange = (tab: ExchangeRateChangeType) => {
-    setActiveTab(tab);
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab as ExchangeRateChangeType);
     setShowAll(false);
-    setAnimationState('idle');
+    setAnimationState("idle");
   };
 
   return (
-      <section className="w-full overflow-hidden bg-[#FFF9DF]">
-        {/* Container: py-[100px] w-[1920px] */}
-        <div
-            className="mx-auto flex w-full flex-col items-center gap-[30px] px-4 py-8 md:gap-[50px] md:py-[100px] 2xl:px-[320px]">
-          {/* Title: text-[40px] leading-[60px] */}
-          <h2 className="text-center text-[24px] font-normal capitalize leading-[1.3] text-[#111] md:text-[32px] lg:text-[40px] lg:leading-[60px]">
-            Spot The Best Exchange Rates In Seconds!
-          </h2>
+    <section className="w-full overflow-hidden bg-[#FFF9DF]">
+      {/* Container: py-[100px] w-[1920px] */}
+      <div className="mx-auto flex w-full flex-col items-center gap-[30px] px-4 py-8 md:gap-[50px] md:py-[100px] 2xl:px-[320px]">
+        {/* Title: text-[40px] leading-[60px] */}
+        <h2 className="text-center text-[24px] font-normal capitalize leading-[1.3] text-[#111] md:text-[32px] lg:text-[40px] lg:leading-[60px]">
+          Spot The Best Exchange Rates In Seconds!
+        </h2>
 
-          {/* Tab toggle - Desktop: horizontal pill, Mobile: vertical stacked */}
-          <ExchangeRateChangeButtons activeTab={activeTab} setActiveTab={handleTabChange}/>
-
-          {/* Currency cards grid: 2 cols on mobile, 6 cols on lg+ */}
-          <div className="grid w-full max-w-[1280px] grid-cols-2 gap-3 lg:grid-cols-6 lg:gap-4">
-            {currencies.map((currency, index) => {
-              const isExtraCard = index >= INITIAL_DISPLAY_COUNT;
-              // 숨겨진 카드는 렌더링하지 않음 (showAll이 true이거나 closing 중일 때만 표시)
-              if (isExtraCard && !showAll) return null;
-
-              return (
-                <CurrencyCard
-                  key={`${currency.code}-${index}`}
-                  currency={currency}
-                  index={index}
-                  animationState={animationState}
-                  totalExtraCards={totalExtraCards}
-                />
-              );
-            })}
-          </div>
-
-          {/* Show More / Show Less button - only show if there are more than 6 currencies */}
-          {hasMore && (
-            <button
-              onClick={handleToggle}
-              disabled={animationState !== 'idle'}
-              className={`flex items-center gap-2 text-[14px] text-[#111] md:text-[16px] transition-opacity ${
-                animationState !== 'idle' ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+        {/* Tab toggle - Using shadcn Tabs */}
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-[300px] lg:w-auto">
+          <TabsList className="flex h-auto w-full flex-col gap-2 rounded-[20px] bg-[#FFD300] p-4 lg:flex-row lg:gap-0 lg:rounded-full lg:p-1">
+            <TabsTrigger
+              value="buy"
+              className="w-full rounded-full px-6 py-3 text-[14px] font-bold data-[state=active]:bg-white data-[state=active]:text-[#111] data-[state=inactive]:bg-transparent data-[state=inactive]:text-[#111]/50 lg:w-auto lg:px-8 lg:py-2 lg:text-[16px]"
             >
-              <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={`h-4 w-4 transition-transform duration-300 ${showAll && animationState !== 'closing' ? 'rotate-180' : ''}`}
-              >
-                <path
-                    d="M4 6L8 10L12 6"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                />
-              </svg>
-              <span>{showAll && animationState !== 'closing' ? 'Show Less' : 'Show More'}</span>
-            </button>
-          )}
+              KRW → Foreign Currency
+            </TabsTrigger>
+            <TabsTrigger
+              value="sell"
+              className="w-full rounded-full px-6 py-3 text-[14px] font-bold data-[state=active]:bg-white data-[state=active]:text-[#111] data-[state=inactive]:bg-transparent data-[state=inactive]:text-[#111]/50 lg:w-auto lg:px-8 lg:py-2 lg:text-[16px]"
+            >
+              Foreign Currency → KRW
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
 
-          {/* Disclaimer text */}
-          <div className="flex flex-col items-center gap-2 text-center">
-            <p className="text-[12px] leading-[1.6] text-[#111]/50 md:text-[14px]">
-              The above exchange rates are based on the lowest-rate device. Available currencies and rates may vary by
-              branch.
-            </p>
-            <p className="text-[12px] leading-[1.6] text-[#111]/50 md:text-[14px]">
-              Daily foreign currency purchase limit : USD 4,000
-            </p>
-          </div>
+        {/* Currency cards grid: 2 cols on mobile, 6 cols on lg+ */}
+        <div className="grid w-full max-w-[1280px] grid-cols-2 gap-3 lg:grid-cols-6 lg:gap-4">
+          {currencies.map((currency, index) => {
+            const isExtraCard = index >= INITIAL_DISPLAY_COUNT;
+            // 숨겨진 카드는 렌더링하지 않음 (showAll이 true이거나 closing 중일 때만 표시)
+            if (isExtraCard && !showAll) return null;
+
+            return (
+              <CurrencyCard
+                key={`${currency.code}-${index}`}
+                currency={currency}
+                index={index}
+                animationState={animationState}
+                totalExtraCards={totalExtraCards}
+              />
+            );
+          })}
         </div>
-      </section>
+
+        {/* Show More / Show Less button - only show if there are more than 6 currencies */}
+        {hasMore && (
+          <Button
+            variant="ghost"
+            onClick={handleToggle}
+            disabled={animationState !== "idle"}
+            className={`flex items-center gap-2 text-[14px] text-[#111] hover:bg-transparent hover:text-[#111]/70 md:text-[16px] ${
+              animationState !== "idle" ? "cursor-not-allowed opacity-50" : ""
+            }`}
+          >
+            <ChevronDown
+              className={`h-4 w-4 transition-transform duration-300 ${
+                showAll && animationState !== "closing" ? "rotate-180" : ""
+              }`}
+            />
+            <span>{showAll && animationState !== "closing" ? "Show Less" : "Show More"}</span>
+          </Button>
+        )}
+
+        {/* Disclaimer text */}
+        <div className="flex flex-col items-center gap-2 text-center">
+          <p className="text-[12px] leading-[1.6] text-[#111]/50 md:text-[14px]">
+            The above exchange rates are based on the lowest-rate device. Available currencies and
+            rates may vary by branch.
+          </p>
+          <p className="text-[12px] leading-[1.6] text-[#111]/50 md:text-[14px]">
+            Daily foreign currency purchase limit : USD 4,000
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }

@@ -26,7 +26,17 @@
       "mcp__figma__get_design_context",
       "mcp__figma__get_screenshot",
       "Bash(npx tsc:*)",
-      "Bash(pnpm build:*)"
+      "Bash(pnpm build:*)",
+      "Bash(pnpm dlx:*)",
+      "Bash(npx shadcn@latest init:*)",
+      "Bash(pkill:*)",
+      "Bash(source:*)",
+      "Bash(nvm list:*)",
+      "Bash(node --version:*)",
+      "Bash(nvm use:*)",
+      "Bash(npx shadcn@latest add --all --overwrite)",
+      "Bash(npx lighthouse:*)",
+      "Bash(npm run codegen:*)"
     ]
   }
 }

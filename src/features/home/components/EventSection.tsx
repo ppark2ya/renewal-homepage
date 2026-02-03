@@ -1,6 +1,7 @@
 "use client";
 
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import { Button } from "@/components/ui/button";
 import useEmblaCarousel from "embla-carousel-react";
 import {WheelGesturesPlugin} from "embla-carousel-wheel-gestures";
 
@@ -106,9 +107,9 @@ export default function EventSection() {
 
         {/* See More button */}
         <div className="flex justify-center">
-          <button className="h-[50px] rounded-full px-8 text-[14px] font-medium text-[#111] transition-colors hover:bg-[#111] hover:text-white md:text-[16px] bg-[#FFD300] border border-[#FFD300]">
+          <Button className="h-[50px] rounded-full border border-[#FFD300] bg-[#FFD300] px-8 text-[14px] font-medium text-[#111] hover:bg-[#111] hover:text-white md:text-[16px]">
             View All {">>"}
-          </button>
+          </Button>
         </div>
       </div>
     </section>

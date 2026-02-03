@@ -1,7 +1,8 @@
+import 'dotenv/config';
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
-  // 환경 변수에서 스키마 URL 읽기
+  // GraphQL 스키마 URL
   schema: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'http://localhost:4000/graphql',
 
   // GraphQL 쿼리/뮤테이션 파일 위치

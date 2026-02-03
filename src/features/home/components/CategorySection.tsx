@@ -1,6 +1,7 @@
 "use client";
 
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import { Button } from "@/components/ui/button";
 
 const R2_BASE_URL = process.env.NEXT_PUBLIC_R2_BASE_URL;
 
@@ -92,13 +93,16 @@ export default function CategorySection() {
                   </div>
                 </div>
               )}
-              <button className="flex h-[300px] w-full flex-col items-center justify-center gap-[20px] rounded-[20px] border border-white bg-[#FFF2B2] px-[10px] py-[60px] transition-transform hover:scale-[1.02]">
+              <Button
+                variant="ghost"
+                className="flex h-[300px] w-full flex-col items-center justify-center gap-[20px] rounded-[20px] border border-white bg-[#FFF2B2] px-[10px] py-[60px] transition-transform hover:scale-[1.02] hover:bg-[#FFF2B2]/80"
+              >
                 <CategoryIcon icon={cat.icon} name={cat.title} />
                 <div className="text-center text-[0px] capitalize leading-[30px] text-[#111]">
                   <p className="mb-0 text-[20px]">{cat.title}</p>
                   <p className="text-[16px]">{cat.subtitle}</p>
                 </div>
-              </button>
+              </Button>
             </div>
           ))}
         </div>
@@ -120,8 +124,9 @@ export default function CategorySection() {
                   </div>
                 </div>
               )}
-              <button
-                className={`flex w-full flex-col items-center justify-center gap-2 rounded-[16px] bg-[#FFF2B2] px-3 py-5 ${
+              <Button
+                variant="ghost"
+                className={`flex w-full flex-col items-center justify-center gap-2 rounded-[16px] bg-[#FFF2B2] px-3 py-5 hover:bg-[#FFF2B2]/80 ${
                   index === 2 ? "h-[130px]" : "h-[160px]"
                 }`}
               >
@@ -130,7 +135,7 @@ export default function CategorySection() {
                   <p className="mb-0">{cat.title}</p>
                   <p>{cat.subtitle}</p>
                 </div>
-              </button>
+              </Button>
             </div>
           ))}
         </div>
