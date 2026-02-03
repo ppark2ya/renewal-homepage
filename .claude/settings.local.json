@@ -22,7 +22,11 @@
       "mcp__figma-remote-mcp__get_screenshot",
       "mcp__figma-remote-mcp__get_design_context",
       "Bash(npm run dev:*)",
-      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd responsive homepage UI based on Figma design\n\n- Create 10 section components \\(Hero, Category, Product, Review, Hotspot, ExchangeRate, Event, CTA\\) + Header/Footer layout\n- Implement 5-breakpoint responsive design \\(375/768/980/1279/1920px\\)\n- Set up Pretendard font, design tokens, and Tailwind CSS v4 theme\n- Mobile-first approach with hamburger menu, carousels, and adaptive grids\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd responsive homepage UI based on Figma design\n\n- Create 10 section components \\(Hero, Category, Product, Review, Hotspot, ExchangeRate, Event, CTA\\) + Header/Footer layout\n- Implement 5-breakpoint responsive design \\(375/768/980/1279/1920px\\)\n- Set up Pretendard font, design tokens, and Tailwind CSS v4 theme\n- Mobile-first approach with hamburger menu, carousels, and adaptive grids\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "mcp__figma__get_design_context",
+      "mcp__figma__get_screenshot",
+      "Bash(npx tsc:*)",
+      "Bash(pnpm build:*)"
     ]
   }
 }

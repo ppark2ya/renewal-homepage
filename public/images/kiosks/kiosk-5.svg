@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="232" height="310" viewBox="0 0 232 310">
+  <rect width="232" height="310" fill="#B8B8B8"/>
+  <rect x="76" y="80" width="80" height="150" rx="8" fill="#FFD300"/>
+  <rect x="86" y="100" width="60" height="40" fill="#111"/>
+  <rect x="96" y="160" width="40" height="50" fill="#fff" stroke="#ccc"/>
+  <text x="116" y="270" text-anchor="middle" font-family="Arial" font-size="14" fill="#666">Kiosk</text>
+</svg>

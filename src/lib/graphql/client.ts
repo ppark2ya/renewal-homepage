@@ -18,7 +18,7 @@ const httpLink = new HttpLink({
  *
  * @example
  * ```tsx
- * import { apolloClient } from '@/lib/graphql-client';
+ * import { apolloClient } from '@/lib/graphql/client';
  * import { ApolloProvider } from '@apollo/client';
  *
  * <ApolloProvider client={apolloClient}>

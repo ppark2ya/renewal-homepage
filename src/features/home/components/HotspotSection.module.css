@@ -1,0 +1,21 @@
+.embla {
+  overflow: hidden;
+  width: 100%;
+}
+
+.embla__container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+}
+
+.embla__slide {
+  flex: 0 0 auto;
+  min-width: 0;
+  padding-left: 32px; /* gap */
+}
+
+@media (min-width: 768px) {
+  .embla__slide {
+    padding-left: 48px; /* md:gap */
+  }
+}

@@ -38,7 +38,7 @@ const config: CodegenConfig = {
         // Apollo Client v4 호환
         apolloClientVersion: 4,
         apolloReactHooksImportFrom: '@apollo/client/react',
-        apolloReactCommonImportFrom: '../lib/apollo-shim',
+        apolloReactCommonImportFrom: '../lib/graphql/shim',
 
         // 커스텀 스칼라 타입 매핑 (필요시 추가)
         scalars: {

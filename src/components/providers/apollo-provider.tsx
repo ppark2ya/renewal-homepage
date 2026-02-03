@@ -1,7 +1,7 @@
 'use client';
 
 import { ApolloProvider } from '@apollo/client/react';
-import { apolloClient } from '@/lib/graphql-client';
+import { apolloClient } from '@/lib/graphql/client';
 
 interface ApolloWrapperProps {
   children: React.ReactNode;

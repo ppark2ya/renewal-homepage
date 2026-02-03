@@ -1,72 +1,99 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import ImageWithFallback from "@/components/ui/ImageWithFallback";
+
+const familySites = [
+  { name: "Dozn Homepage", url: "https://dozn.co.kr" },
+  { name: "Dozn Exchange", url: "https://exchange.dozn.co.kr" },
+  { name: "더아파트", url: "https://theapt-dozn.co.kr" },
+  { name: "아보카도", url: "https://avo-kado.co.kr" },
+];
 
 export default function Footer() {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   return (
-    <footer className="bg-[#222] text-white">
-      <div className="w-full px-4 py-10 xl:px-[360px] md:py-16">
-        <div className="flex flex-col gap-8 md:flex-row md:justify-between">
-          {/* Logo & Company Info */}
-          <div className="flex flex-col gap-4">
-            <Link href="/" className="text-xl font-bold text-white">
-              dozn
-            </Link>
-            <div className="flex flex-col gap-1 text-[13px] leading-[20px] text-white/60">
-              <p>더즌익스체인지 주식회사 | 대표이사: OOO</p>
-              <p>사업자등록번호: 000-00-00000</p>
-              <p>
-                서울특별시 강남구 테헤란로 000, 00층
-              </p>
-              <p>고객센터: 1588-0000</p>
-            </div>
+    <footer className="w-full bg-[#F6F8F9]">
+      {/* Container: h-[300px] px-[320px] py-[40px] w-[1920px] */}
+      <div className="mx-auto flex h-auto w-full max-w-[1920px] flex-col items-start justify-between gap-6 px-4 py-8 md:h-[300px] md:flex-row 2xl:px-[320px] md:py-[40px]">
+        {/* Left: Logo & Company Info - gap-[20px] */}
+        <div className="flex flex-col gap-[20px]">
+          {/* Logo: h-[30px] w-[69px] */}
+          <div className="relative h-[30px] w-[69px]">
+            <ImageWithFallback
+              src={`${process.env.NEXT_PUBLIC_R2_BASE_URL}/dozn_logo.png`}
+              alt="Dozn"
+              fill
+              className="object-contain"
+              sizes="69px"
+              fallbackSrc="/images/dozn-logo.svg"
+            />
           </div>
 
-          {/* Links */}
-          <div className="flex gap-12">
-            <div className="flex flex-col gap-3">
-              <h4 className="text-[14px] font-semibold">Service</h4>
-              <Link
-                href="/location"
-                className="text-[13px] text-white/60 hover:text-white"
-              >
-                Location
-              </Link>
-              <Link
-                href="/fx-rate"
-                className="text-[13px] text-white/60 hover:text-white"
-              >
-                FX Rate Check
-              </Link>
-              <Link
-                href="/the-free"
-                className="text-[13px] text-white/60 hover:text-white"
-              >
-                THE Free
-              </Link>
-            </div>
-            <div className="flex flex-col gap-3">
-              <h4 className="text-[14px] font-semibold">Company</h4>
-              <Link
-                href="/about"
-                className="text-[13px] text-white/60 hover:text-white"
-              >
-                About Dozn
-              </Link>
-              <Link
-                href="/contact"
-                className="text-[13px] text-white/60 hover:text-white"
-              >
-                Contact us
-              </Link>
-            </div>
+          {/* Company Info: text-[14px] leading-[30px] tracking-[-0.7px] text-[#717895] */}
+          <div className="flex flex-col text-[14px] leading-[30px] tracking-[-0.7px] text-[#717895]">
+            <p>주소 : 서울시 서초구 강남대로 465, B동 16층 (서초동 1303-22, 강남교보타워)</p>
+            <p>고객센터 : 1566-0979 ｜ 사업자등록번호 : 378-88-00880 ｜ 통신판매업신고 : 2018-서울서초-0267호</p>
           </div>
+
+          {/* Links: gap-[32px] text-[14px] leading-[1.5] text-[#111] */}
+          <div className="flex w-[242px] items-center gap-[32px] text-[14px] leading-[1.5] text-[#111]">
+            <Link href="/terms" className="hover:underline">
+              이용약관
+            </Link>
+            <Link href="/privacy" className="underline decoration-solid hover:no-underline">
+              개인정보처리방침
+            </Link>
+          </div>
+
+          {/* Copyright: text-[12px] text-[#717895] */}
+          <p className="text-[12px] leading-normal text-[#717895]">
+            Copyright © DOZN. All rights reserved.
+          </p>
         </div>
 
-        {/* Copyright */}
-        <div className="mt-10 border-t border-white/10 pt-6">
-          <p className="text-[12px] text-white/40">
-            &copy; {new Date().getFullYear()} Dozn Exchange. All rights
-            reserved.
-          </p>
+        {/* Right: Family Site dropdown - w-[200px] */}
+        <div className="relative">
+          <button
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="flex w-[200px] items-center justify-between rounded-[8px] border border-[#D8DCE9] bg-white px-[14px] py-[10px]"
+          >
+            <span className="text-[14px] leading-[20px] text-[#111]">Family Site</span>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              className={`rotate-180 transition-transform ${isDropdownOpen ? "rotate-0" : ""}`}
+            >
+              <path
+                d="M6 9L12 15L18 9"
+                stroke="#111"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+
+          {/* Dropdown menu */}
+          {isDropdownOpen && (
+            <div className="absolute right-0 top-full z-10 mt-1 w-[200px] rounded-[8px] border border-[#D8DCE9] bg-white shadow-lg">
+              {familySites.map((site) => (
+                <a
+                  key={site.name}
+                  href={site.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-[14px] py-[10px] text-[14px] text-[#111] hover:bg-[#F6F8F9]"
+                >
+                  {site.name}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </footer>

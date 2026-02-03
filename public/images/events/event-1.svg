@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="300" viewBox="0 0 220 300">
+  <rect width="220" height="300" fill="#FFE4B5"/>
+  <text x="110" y="140" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#8B4513">Festival</text>
+  <text x="110" y="170" text-anchor="middle" font-family="Arial" font-size="12" fill="#666">Event Image</text>
+</svg>
