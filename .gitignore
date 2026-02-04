@@ -19,9 +19,9 @@
 
 # production
 /build
+/dist
 
 # misc
-.DS_Store
 *.pem
 
 # debug
@@ -39,3 +39,61 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ========================================
+# Team Collaboration
+# ========================================
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# IDE / Editor
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# VS Code - ignore personal settings but allow shared team settings
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+
+# Local history plugins
+.history/
+
+# Cache
+.cache/
+*.cache
+.eslintcache
+.prettiercache
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Secrets & credentials (never commit these)
+*.key
+*.crt
+*.p12
+.secrets
+credentials.json
+service-account*.json
+
+# Local overrides
+*.local
+*.local.*
