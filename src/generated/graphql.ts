@@ -1,6 +1,8 @@
 /* eslint-disable */
 // @ts-nocheck
 import { gql } from '@apollo/client';
+import type * as ApolloReactCommon from '../lib/graphql/shim';
+import * as ApolloReactHooks from '../lib/graphql/apollo-react-shim';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -8,6 +10,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -296,3 +299,109 @@ export type UpdateNotificationInput = {
   /** 수신 가능 여부 */
   sendYn: Scalars['String']['input'];
 };
+
+export type GetWonForeignBestRatesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetWonForeignBestRatesQuery = { __typename?: 'Query', getWonForeignBestRates: { __typename?: 'BaseRateResponse', currencyRates: Array<{ __typename?: 'ExchangeRateInfo', currencyCode: CurrencyCode, spreadRate: number, prevSpreadRate?: number | null, terminalId: number }> } };
+
+export type GetForeignWonBestRatesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetForeignWonBestRatesQuery = { __typename?: 'Query', getForeignWonBestRates: { __typename?: 'BaseRateResponse', currencyRates: Array<{ __typename?: 'ExchangeRateInfo', currencyCode: CurrencyCode, spreadRate: number, prevSpreadRate?: number | null, terminalId: number }> } };
+
+
+export const GetWonForeignBestRatesDocument = gql`
+    query GetWonForeignBestRates {
+  getWonForeignBestRates {
+    currencyRates {
+      currencyCode
+      spreadRate
+      prevSpreadRate
+      terminalId
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetWonForeignBestRatesQuery__
+ *
+ * To run a query within a React component, call `useGetWonForeignBestRatesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetWonForeignBestRatesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetWonForeignBestRatesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetWonForeignBestRatesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetWonForeignBestRatesQuery, GetWonForeignBestRatesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetWonForeignBestRatesQuery, GetWonForeignBestRatesQueryVariables>(GetWonForeignBestRatesDocument, options);
+      }
+export function useGetWonForeignBestRatesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetWonForeignBestRatesQuery, GetWonForeignBestRatesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetWonForeignBestRatesQuery, GetWonForeignBestRatesQueryVariables>(GetWonForeignBestRatesDocument, options);
+        }
+// @ts-ignore
+export function useGetWonForeignBestRatesSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetWonForeignBestRatesQuery, GetWonForeignBestRatesQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetWonForeignBestRatesQuery, GetWonForeignBestRatesQueryVariables>;
+export function useGetWonForeignBestRatesSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetWonForeignBestRatesQuery, GetWonForeignBestRatesQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetWonForeignBestRatesQuery | undefined, GetWonForeignBestRatesQueryVariables>;
+export function useGetWonForeignBestRatesSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetWonForeignBestRatesQuery, GetWonForeignBestRatesQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetWonForeignBestRatesQuery, GetWonForeignBestRatesQueryVariables>(GetWonForeignBestRatesDocument, options);
+        }
+export type GetWonForeignBestRatesQueryHookResult = ReturnType<typeof useGetWonForeignBestRatesQuery>;
+export type GetWonForeignBestRatesLazyQueryHookResult = ReturnType<typeof useGetWonForeignBestRatesLazyQuery>;
+export type GetWonForeignBestRatesSuspenseQueryHookResult = ReturnType<typeof useGetWonForeignBestRatesSuspenseQuery>;
+export type GetWonForeignBestRatesQueryResult = ApolloReactCommon.QueryResult<GetWonForeignBestRatesQuery, GetWonForeignBestRatesQueryVariables>;
+export const GetForeignWonBestRatesDocument = gql`
+    query GetForeignWonBestRates {
+  getForeignWonBestRates {
+    currencyRates {
+      currencyCode
+      spreadRate
+      prevSpreadRate
+      terminalId
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetForeignWonBestRatesQuery__
+ *
+ * To run a query within a React component, call `useGetForeignWonBestRatesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetForeignWonBestRatesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetForeignWonBestRatesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetForeignWonBestRatesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetForeignWonBestRatesQuery, GetForeignWonBestRatesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetForeignWonBestRatesQuery, GetForeignWonBestRatesQueryVariables>(GetForeignWonBestRatesDocument, options);
+      }
+export function useGetForeignWonBestRatesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetForeignWonBestRatesQuery, GetForeignWonBestRatesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetForeignWonBestRatesQuery, GetForeignWonBestRatesQueryVariables>(GetForeignWonBestRatesDocument, options);
+        }
+// @ts-ignore
+export function useGetForeignWonBestRatesSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetForeignWonBestRatesQuery, GetForeignWonBestRatesQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetForeignWonBestRatesQuery, GetForeignWonBestRatesQueryVariables>;
+export function useGetForeignWonBestRatesSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetForeignWonBestRatesQuery, GetForeignWonBestRatesQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetForeignWonBestRatesQuery | undefined, GetForeignWonBestRatesQueryVariables>;
+export function useGetForeignWonBestRatesSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetForeignWonBestRatesQuery, GetForeignWonBestRatesQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetForeignWonBestRatesQuery, GetForeignWonBestRatesQueryVariables>(GetForeignWonBestRatesDocument, options);
+        }
+export type GetForeignWonBestRatesQueryHookResult = ReturnType<typeof useGetForeignWonBestRatesQuery>;
+export type GetForeignWonBestRatesLazyQueryHookResult = ReturnType<typeof useGetForeignWonBestRatesLazyQuery>;
+export type GetForeignWonBestRatesSuspenseQueryHookResult = ReturnType<typeof useGetForeignWonBestRatesSuspenseQuery>;
+export type GetForeignWonBestRatesQueryResult = ApolloReactCommon.QueryResult<GetForeignWonBestRatesQuery, GetForeignWonBestRatesQueryVariables>;

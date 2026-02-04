@@ -10,7 +10,7 @@ const config: CodegenConfig = {
 
   // 생성 옵션
   generates: {
-    'src/generated/graphql.ts': {
+    'src/graphql/generated/graphql.ts': {
       plugins: [
         {
           add: {
@@ -32,13 +32,11 @@ const config: CodegenConfig = {
         withHooks: true, // useQuery, useMutation 훅 생성
         withHOC: false, // HOC는 생성하지 않음
         withComponent: false, // React 컴포넌트는 생성하지 않음
-
-        // 훅 이름 패턴: useGetUsersQuery, useCreateUserMutation
-        // (기본값이지만 명시적으로 설정)
+        withSuspense: false, // Suspense 훅 생성 안함 (skipToken 호환성 문제)
 
         // Apollo Client v4 호환
         apolloClientVersion: 4,
-        apolloReactHooksImportFrom: '@apollo/client/react',
+        apolloReactHooksImportFrom: '../lib/graphql/apollo-react-shim',
         apolloReactCommonImportFrom: '../lib/graphql/shim',
 
         // 커스텀 스칼라 타입 매핑 (필요시 추가)

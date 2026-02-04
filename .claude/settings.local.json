@@ -40,7 +40,11 @@
       "Bash(pnpm lint:*)",
       "Bash(npm run lint:*)",
       "Bash(jq:*)",
-      "Bash(brew install:*)"
+      "Bash(brew install:*)",
+      "Bash(pnpm codegen:*)",
+      "Bash(/opt/homebrew/bin/pnpm codegen)",
+      "Bash(curl:*)",
+      "Bash(lsof:*)"
     ]
   }
 }

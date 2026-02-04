@@ -1,0 +1,21 @@
+query GetWonForeignBestRates {
+  getWonForeignBestRates {
+    currencyRates {
+      currencyCode
+      spreadRate
+      prevSpreadRate
+      terminalId
+    }
+  }
+}
+
+query GetForeignWonBestRates {
+  getForeignWonBestRates {
+    currencyRates {
+      currencyCode
+      spreadRate
+      prevSpreadRate
+      terminalId
+    }
+  }
+}

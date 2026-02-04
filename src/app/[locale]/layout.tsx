@@ -3,6 +3,7 @@ import {getMessages} from 'next-intl/server';
 import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
 import type { Metadata } from "next";
+import { ApolloWrapper } from '@/components/providers/apollo-provider';
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -32,9 +33,11 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body className="antialiased">
-        <NextIntlClientProvider messages={messages}>
-          {children}
-        </NextIntlClientProvider>
+        <ApolloWrapper>
+          <NextIntlClientProvider messages={messages}>
+            {children}
+          </NextIntlClientProvider>
+        </ApolloWrapper>
       </body>
     </html>
   );

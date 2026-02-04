@@ -26,12 +26,12 @@ export function FlagIcon({
   className = '',
 }: FlagIconProps) {
   const { width, height, className: sizeClassName } = SIZES[size];
-  const isJapanFlag = src.includes('jp.svg');
+  const needsBorder = src.includes('jp.svg') || src.includes('sg.svg');
 
   return (
     <div
       className={`relative overflow-hidden bg-white ${sizeClassName} ${
-        isJapanFlag ? 'border border-[#D8DCE9]' : ''
+        needsBorder ? 'border border-[#D8DCE9]' : ''
       } ${className}`}
     >
       <ImageWithFallback
