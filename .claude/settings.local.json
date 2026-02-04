@@ -36,7 +36,11 @@
       "Bash(nvm use:*)",
       "Bash(npx shadcn@latest add --all --overwrite)",
       "Bash(npx lighthouse:*)",
-      "Bash(npm run codegen:*)"
+      "Bash(npm run codegen:*)",
+      "Bash(pnpm lint:*)",
+      "Bash(npm run lint:*)",
+      "Bash(jq:*)",
+      "Bash(brew install:*)"
     ]
   }
 }

@@ -111,10 +111,10 @@ export default function NotificationAlertModal({ isOpen, onClose }: Notification
         </DialogHeader>
 
         {/* Form Content */}
-        <div className="flex flex-1 flex-col overflow-y-auto">
+        <div className="flex min-h-0 flex-1 flex-col">
           {step === 1 ? (
             /* Step 1: Phone Number and Privacy Agreement */
-            <div className="flex flex-col gap-8 px-4 pb-8 pt-4">
+            <div className="flex flex-1 flex-col gap-8 overflow-y-auto px-4 pb-8 pt-4">
               {/* Phone Input */}
               <div className="flex flex-col gap-1">
                 <Label className="text-[16px] font-bold leading-[30px] text-[#FF8C00]">연락처</Label>
@@ -198,7 +198,7 @@ export default function NotificationAlertModal({ isOpen, onClose }: Notification
             </div>
           ) : (
             /* Step 2: Currency Selection */
-            <div className="flex flex-1 flex-col gap-4 px-4 pb-8 pt-4">
+            <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-4 pb-8 pt-4">
               <h3 className="text-[16px] font-bold leading-[30px] text-[#FF8C00]">
                 알림 받을 통화 (중복 선택 가능)
               </h3>
@@ -243,28 +243,30 @@ export default function NotificationAlertModal({ isOpen, onClose }: Notification
         </div>
 
         {/* Bottom Button */}
-        {step === 1 ? (
-          <Button
-            type="button"
-            onClick={handleNext}
-            disabled={!canProceedToNextStep}
-            className={`h-[50px] w-full shrink-0 rounded-none text-[16px] leading-[24px] ${
-              canProceedToNextStep
-                ? "bg-[#FFD300] text-[#111] hover:bg-[#FFD300]/90"
-                : "cursor-not-allowed bg-[#BBC4D3] text-[#717895] hover:bg-[#BBC4D3]"
-            }`}
-          >
-            다음
-          </Button>
-        ) : (
-          <Button
-            type="button"
-            onClick={handleSubmit}
-            className="h-[50px] w-full shrink-0 rounded-none bg-[#FFD300] text-[16px] leading-[24px] text-[#111] hover:bg-[#FFD300]/90"
-          >
-            알림 신청하기
-          </Button>
-        )}
+        <div className="mt-auto shrink-0">
+          {step === 1 ? (
+            <Button
+              type="button"
+              onClick={handleNext}
+              disabled={!canProceedToNextStep}
+              className={`h-[50px] w-full rounded-none text-[16px] leading-[24px] ${
+                canProceedToNextStep
+                  ? "bg-[#FFD300] text-[#111] hover:bg-[#FFD300]/90"
+                  : "cursor-not-allowed bg-[#BBC4D3] text-[#717895] hover:bg-[#BBC4D3]"
+              }`}
+            >
+              다음
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              onClick={handleSubmit}
+              className="h-[50px] w-full rounded-none bg-[#FFD300] text-[16px] leading-[24px] text-[#111] hover:bg-[#FFD300]/90"
+            >
+              알림 신청하기
+            </Button>
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );

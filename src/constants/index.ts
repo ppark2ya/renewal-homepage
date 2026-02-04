@@ -1,0 +1,35 @@
+/**
+ * 공통 상수 정의
+ */
+
+// R2 Storage Base URL
+export const R2_BASE_URL = process.env.NEXT_PUBLIC_R2_BASE_URL ?? '';
+
+// 애니메이션 관련 상수
+export const ANIMATION = {
+  CAROUSEL_AUTOPLAY_DELAY: 4000,
+  STAGGER_DELAY: 50,
+  FADE_DURATION: 300,
+} as const;
+
+// 반응형 브레이크포인트 (Tailwind 기준)
+export const BREAKPOINTS = {
+  SM: 640,
+  MD: 768,
+  LG: 1024,
+  XL: 1280,
+  '2XL': 1536,
+} as const;
+
+// 환율 섹션 관련 상수
+export const EXCHANGE_RATE = {
+  INITIAL_DISPLAY_COUNT: 6,
+  DAILY_PURCHASE_LIMIT: 'USD 4,000',
+} as const;
+
+// 이미지 관련 상수
+export const IMAGE = {
+  DEFAULT_BLUR_DATA_URL:
+    'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAgEDBAMBAAAAAAAAAAAAAQIDAAQRBRIhMQYTQWH/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/EABoRAAICAwAAAAAAAAAAAAAAAAECABEDITH/2gAMAwEAAhEDEQA/ANJ8f1vT7qzvYLe6gklt5TFKqSAlHABKsB0RkdGopdMVkZYwQCSAexSlKjYkkC2UJYH/2Q==',
+  PLACEHOLDER_PATH: '/images/placeholder.svg',
+} as const;

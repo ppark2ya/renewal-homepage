@@ -1,10 +1,5 @@
-'use client';
-
 import type { DocumentNode, TypedDocumentNode, OperationVariables } from '@apollo/client';
 import { apolloClient, createAuthenticatedClient } from './client';
-
-// Apollo Client 기본 훅 re-export (react-query와 유사한 API)
-export { useQuery, useMutation, useLazyQuery, useSubscription } from '@apollo/client/react';
 
 /**
  * Server Component용 GraphQL 쿼리 실행

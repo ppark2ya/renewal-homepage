@@ -58,8 +58,8 @@ export default function ServiceInquiryModal({
         </DialogHeader>
 
         {/* Form Content */}
-        <form onSubmit={handleSubmit} className="flex flex-1 flex-col overflow-y-auto">
-          <div className="flex flex-col gap-5 px-4 pb-8 pt-4">
+        <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
+          <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-4 pb-8 pt-4">
             {/* Name & Company - 데스크톱: 2열, 모바일: 1열 */}
             <div className="flex flex-col gap-5 md:flex-row md:gap-5">
               <div className="flex flex-1 flex-col gap-1">
@@ -165,12 +165,14 @@ export default function ServiceInquiryModal({
           </div>
 
           {/* Submit Button */}
-          <Button
-            type="submit"
-            className="h-[50px] w-full shrink-0 rounded-none bg-[#FFD300] text-[16px] leading-[24px] text-[#111] hover:bg-[#FFD300]/90"
-          >
-            문의하기
-          </Button>
+          <div className="mt-auto shrink-0">
+            <Button
+              type="submit"
+              className="h-[50px] w-full rounded-none bg-[#FFD300] text-[16px] leading-[24px] text-[#111] hover:bg-[#FFD300]/90"
+            >
+              문의하기
+            </Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

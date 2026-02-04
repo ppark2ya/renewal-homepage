@@ -1,6 +1,16 @@
+import { ChevronDown } from 'lucide-react';
+import { R2_BASE_URL } from '@/constants';
+
+/**
+ * 히어로 섹션 - 전체 화면 비디오 배경과 메인 헤드라인
+ * Server Component - 상태나 이벤트 핸들러가 필요 없음
+ */
 export default function HeroSection() {
   return (
-    <section className="relative h-[100vh] w-full overflow-hidden bg-white">
+    <section
+      className="relative h-[100vh] w-full overflow-hidden bg-white"
+      aria-label="Dozn Exchange 메인 배너"
+    >
       {/* Video Background */}
       <div className="absolute inset-0">
         <video
@@ -9,11 +19,9 @@ export default function HeroSection() {
           muted
           playsInline
           className="h-full w-full object-cover"
+          aria-hidden="true"
         >
-          <source
-            src="https://pub-b8c324bfc986460fbdb1c9667951568a.r2.dev/assets/home_video.mp4"
-            type="video/mp4"
-          />
+          <source src={`${R2_BASE_URL}/home_video.mp4`} type="video/mp4" />
         </video>
         {/* Overlay with gradient */}
         <div
@@ -21,6 +29,7 @@ export default function HeroSection() {
           style={{
             background: `radial-gradient(50% 50% at 50% 50%, rgba(255, 247, 209, 0.30) 0%, rgba(255, 211, 0, 0.30) 100%), linear-gradient(0deg, rgba(255, 211, 0, 0.60) 0%, rgba(255, 211, 0, 0.60) 100%)`,
           }}
+          aria-hidden="true"
         />
       </div>
 
@@ -46,28 +55,21 @@ export default function HeroSection() {
         </p>
       </div>
 
-      {/* Pager dots */}
-      <div className="absolute bottom-[40px] left-4 flex items-center gap-4 md:bottom-[56px] 2xl:left-[320px]">
+      {/* Pager dots - indicates multiple slides (future enhancement) */}
+      <div
+        className="absolute bottom-[40px] left-4 flex items-center gap-4 md:bottom-[56px] 2xl:left-[320px]"
+        aria-hidden="true"
+      >
         <div className="h-[12px] w-[60px] rounded-[8px] bg-[#111] md:h-[16px] md:w-[80px]" />
         <div className="size-[12px] rounded-[8px] bg-[#111]/50 md:size-[16px]" />
       </div>
 
-      {/* Chevron down */}
-      <div className="absolute bottom-[20px] left-1/2 -translate-x-1/2 md:bottom-[30px]">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#111"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="size-[24px] animate-bounce"
-        >
-          <polyline points="6 15 12 21 18 15" />
-          <polyline points="6 9 12 15 18 9" />
-        </svg>
+      {/* Scroll indicator */}
+      <div
+        className="absolute bottom-[20px] left-1/2 -translate-x-1/2 md:bottom-[30px]"
+        aria-label="아래로 스크롤"
+      >
+        <ChevronDown className="size-6 animate-bounce text-[#111]" />
       </div>
     </section>
   );
