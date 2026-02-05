@@ -44,7 +44,18 @@
       "Bash(pnpm codegen:*)",
       "Bash(/opt/homebrew/bin/pnpm codegen)",
       "Bash(curl:*)",
-      "Bash(lsof:*)"
+      "Bash(lsof:*)",
+      "Bash(xargs ls:*)",
+      "Bash(xargs kill -9)",
+      "Bash(grep:*)",
+      "Bash(file:*)",
+      "Bash(npx eslint:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(export NVM_DIR=\"$HOME/.nvm\")",
+      "Bash([ -s \"$NVM_DIR/nvm.sh\" ])",
+      "Bash(. \"$NVM_DIR/nvm.sh\")",
+      "Bash(npx:*)"
     ]
   }
 }

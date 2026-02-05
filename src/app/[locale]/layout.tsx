@@ -4,6 +4,7 @@ import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
 import type { Metadata } from "next";
 import { ApolloWrapper } from '@/components/providers/apollo-provider';
+import { Toaster } from '@/components/ui/sonner';
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -36,6 +37,7 @@ export default async function RootLayout({
         <ApolloWrapper>
           <NextIntlClientProvider messages={messages}>
             {children}
+            <Toaster />
           </NextIntlClientProvider>
         </ApolloWrapper>
       </body>

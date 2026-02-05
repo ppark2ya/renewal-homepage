@@ -1,0 +1,34 @@
+{
+  "HomePage": {
+    "title": "こんにちは!",
+    "welcome": "ホームページへようこそ。"
+  },
+  "LocationPage": {
+    "title": "場所",
+    "searchPlaceholder": "検索語を入力してください。",
+    "filterButton": "フィルター",
+    "hotspots": {
+      "myeongdong": "明洞",
+      "hongdae": "弘大",
+      "seongsu": "聖水",
+      "haeundae": "海雲台"
+    },
+    "services": {
+      "foreignToKrw": "外貨 → ウォン",
+      "krwToForeign": "ウォン → 外貨",
+      "taxRefund": "TAX REFUND",
+      "ezlCardTopup": "EZLカードチャージ"
+    },
+    "openYearRound": "年中無休",
+    "filter": {
+      "title": "フィルター",
+      "multipleSelections": "複数選択可能",
+      "region": "地域",
+      "detailedRegion": "詳細地域",
+      "servicesProvided": "提供サービス",
+      "currencySelection": "通貨選択",
+      "operatingHours": "営業時間",
+      "apply": "適用"
+    }
+  }
+}

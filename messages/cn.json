@@ -1,0 +1,34 @@
+{
+  "HomePage": {
+    "title": "你好!",
+    "welcome": "欢迎来到我们的主页。"
+  },
+  "LocationPage": {
+    "title": "位置",
+    "searchPlaceholder": "请输入搜索词。",
+    "filterButton": "筛选",
+    "hotspots": {
+      "myeongdong": "明洞",
+      "hongdae": "弘大",
+      "seongsu": "圣水",
+      "haeundae": "海云台"
+    },
+    "services": {
+      "foreignToKrw": "外币 → 韩元",
+      "krwToForeign": "韩元 → 外币",
+      "taxRefund": "退税",
+      "ezlCardTopup": "EZL卡充值"
+    },
+    "openYearRound": "全年无休",
+    "filter": {
+      "title": "筛选",
+      "multipleSelections": "可多选",
+      "region": "地区",
+      "detailedRegion": "详细地区",
+      "servicesProvided": "提供服务",
+      "currencySelection": "货币选择",
+      "operatingHours": "营业时间",
+      "apply": "应用"
+    }
+  }
+}

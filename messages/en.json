@@ -2,5 +2,33 @@
   "HomePage": {
     "title": "Hello!",
     "welcome": "Welcome to our homepage."
+  },
+  "LocationPage": {
+    "title": "Location",
+    "searchPlaceholder": "Please Enter A Search Term.",
+    "filterButton": "Filter",
+    "hotspots": {
+      "myeongdong": "Myeongdong",
+      "hongdae": "Hongdae",
+      "seongsu": "Seongsu",
+      "haeundae": "Haeundae"
+    },
+    "services": {
+      "foreignToKrw": "Foreign Currency → KRW",
+      "krwToForeign": "KRW → Foreign currency",
+      "taxRefund": "TAX REFUND",
+      "ezlCardTopup": "EZL Card Top-up"
+    },
+    "openYearRound": "Open year-round",
+    "filter": {
+      "title": "Filter",
+      "multipleSelections": "Multiple selections allowed",
+      "region": "Region",
+      "detailedRegion": "Detailed Region",
+      "servicesProvided": "Services Provided",
+      "currencySelection": "Currency Selection",
+      "operatingHours": "Operating Hours",
+      "apply": "Apply"
+    }
   }
 }

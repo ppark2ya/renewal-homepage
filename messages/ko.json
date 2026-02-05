@@ -2,5 +2,33 @@
   "HomePage": {
     "title": "안녕하세요!",
     "welcome": "저희 홈페이지에 오신 것을 환영합니다."
+  },
+  "LocationPage": {
+    "title": "위치",
+    "searchPlaceholder": "검색어를 입력해 주세요.",
+    "filterButton": "필터",
+    "hotspots": {
+      "myeongdong": "명동",
+      "hongdae": "홍대",
+      "seongsu": "성수",
+      "haeundae": "해운대"
+    },
+    "services": {
+      "foreignToKrw": "외화 → 원화",
+      "krwToForeign": "원화 → 외화",
+      "taxRefund": "택스리펀",
+      "ezlCardTopup": "이즐카드 충전"
+    },
+    "openYearRound": "연중무휴",
+    "filter": {
+      "title": "필터",
+      "multipleSelections": "중복 선택 가능",
+      "region": "지역",
+      "detailedRegion": "상세 지역",
+      "servicesProvided": "제공 서비스",
+      "currencySelection": "통화 선택",
+      "operatingHours": "운영 시간",
+      "apply": "적용"
+    }
   }
 }

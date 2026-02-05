@@ -13,14 +13,13 @@ import type { NavItem } from '@/types';
 
 interface DesktopNavProps {
   navItems: NavItem[];
-  onMouseEnter: () => void;
   activeNavItem: string | null;
   onNavItemHover: (label: string) => void;
 }
 
-function DesktopNav({ navItems, onMouseEnter, activeNavItem, onNavItemHover }: DesktopNavProps) {
+function DesktopNav({ navItems,  activeNavItem, onNavItemHover }: DesktopNavProps) {
   return (
-    <nav className="hidden items-center gap-8 lg:flex" onMouseEnter={onMouseEnter}>
+    <nav className="hidden items-center gap-8 lg:flex">
       {navItems.map((item) => {
         const hasSubItems = item.subItems && item.subItems.length > 0;
         const isActive = activeNavItem === item.label;
@@ -37,11 +36,11 @@ function DesktopNav({ navItems, onMouseEnter, activeNavItem, onNavItemHover }: D
             {/* Submenu dropdown */}
             {hasSubItems && (
               <div
-                className={`absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4 transition-all duration-200 ${
+                className={`absolute left-1/2 z-50 -translate-x-1/2 pt-3 transition-all duration-200 w-[200vw] ${
                   isActive ? 'visible opacity-100' : 'invisible opacity-0'
                 }`}
               >
-                <div className="flex flex-col items-center gap-3 whitespace-nowrap rounded-lg border border-gray-100 bg-white px-6 py-4 shadow-lg">
+                <div className="flex flex-col items-center gap-3 whitespace-nowrap bg-white px-6 py-4 shadow-lg">
                   {item.subItems?.map((subItem) => (
                     <Link
                       key={subItem.label}
@@ -136,9 +135,8 @@ export default function Header() {
       >
         {/* Container */}
         <div
-          className={`mx-auto flex w-full items-center justify-between px-4 transition-all duration-300 md:px-8 lg:px-16 xl:px-24 2xl:px-[320px] ${
-            isNavHovered ? 'h-[50px]' : 'h-[60px]'
-          }`}
+          onMouseEnter={() => setIsNavHovered(true)}
+          className={`mx-auto flex w-full items-center justify-between px-4 transition-all duration-300 md:px-8 lg:px-16 xl:px-24 2xl:px-[320px] h-[60px]`}
         >
           {/* Logo */}
           <Link
@@ -158,7 +156,6 @@ export default function Header() {
           {/* Center Nav - Desktop */}
           <DesktopNav
             navItems={NAV_ITEMS}
-            onMouseEnter={() => setIsNavHovered(true)}
             activeNavItem={activeNavItem}
             onNavItemHover={setActiveNavItem}
           />

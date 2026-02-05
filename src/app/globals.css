@@ -2,6 +2,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* noinspection CssInvalidAtRule */
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -36,6 +37,7 @@
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
 
+/* noinspection CssInvalidAtRule */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -281,4 +283,40 @@ body {
     background-color: var(--background);
     color: var(--foreground);
   }
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
+}
+
+/* ===== Google Maps InfoWindow Custom Styles ===== */
+.gm-style-iw {
+  padding: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+.gm-style-iw-d {
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+.gm-style-iw-c {
+  padding: 0 !important;
+  border-radius: 20px !important;
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25) !important;
+}
+
+.gm-style-iw-chr {
+  display: none !important;
+}
+
+/* Hide default close button */
+.gm-ui-hover-effect {
+  display: none !important;
+}
+
+/* InfoWindow arrow (tail) */
+.gm-style-iw-tc {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
