@@ -2,6 +2,64 @@ import type { SelectedFilters, FilterDetailItem, FilterResponseItem } from '../t
 import { REGION_TO_DETAILED_REGIONS, ALL_CURRENCY_CODES } from '../constants';
 
 /**
+ * Check if all items (excluding 'all') are selected
+ */
+export function areAllItemsSelected(
+  selectedItems: string[],
+  allItems: string[]
+): boolean {
+  const itemsWithoutAll = allItems.filter((item) => item !== 'all');
+  const selectedWithoutAll = selectedItems.filter((item) => item !== 'all');
+  return (
+    itemsWithoutAll.length > 0 &&
+    itemsWithoutAll.every((item) => selectedWithoutAll.includes(item))
+  );
+}
+
+/**
+ * Normalize filters to include/exclude 'all' based on selection state
+ * - Add 'all' if all items are selected
+ * - Remove 'all' if not all items are selected
+ */
+export function normalizeFiltersWithAll(
+  filters: SelectedFilters,
+  visibleDetailedRegionCodes: string[]
+): SelectedFilters {
+  const normalizedFilters = { ...filters };
+
+  // Normalize detailed regions
+  const detailedRegionCodesWithoutAll = visibleDetailedRegionCodes.filter(
+    (code) => code !== 'all'
+  );
+  if (detailedRegionCodesWithoutAll.length > 0) {
+    const allDetailedSelected = areAllItemsSelected(
+      filters.detailedRegions,
+      detailedRegionCodesWithoutAll
+    );
+    if (allDetailedSelected && !filters.detailedRegions.includes('all')) {
+      normalizedFilters.detailedRegions = ['all', ...filters.detailedRegions];
+    } else if (!allDetailedSelected && filters.detailedRegions.includes('all')) {
+      normalizedFilters.detailedRegions = filters.detailedRegions.filter(
+        (c) => c !== 'all'
+      );
+    }
+  }
+
+  // Normalize currencies
+  const allCurrenciesSelected = areAllItemsSelected(
+    filters.currencies,
+    ALL_CURRENCY_CODES
+  );
+  if (allCurrenciesSelected && !filters.currencies.includes('all')) {
+    normalizedFilters.currencies = ['all', ...filters.currencies];
+  } else if (!allCurrenciesSelected && filters.currencies.includes('all')) {
+    normalizedFilters.currencies = filters.currencies.filter((c) => c !== 'all');
+  }
+
+  return normalizedFilters;
+}
+
+/**
  * 선택된 지역에 따라 표시할 상세 지역 필터링
  */
 export function getVisibleDetailedRegions(
@@ -95,7 +153,30 @@ export function toggleFilterSelection(
     return { ...prev, [category]: current.filter((c) => c !== code) };
   }
 
-  return { ...prev, [category]: [...current, code] };
+  // 개별 항목 추가 시 - 전체가 선택되면 'all'도 자동 추가
+  const newSelection = [...current, code];
+
+  // 통화에서 개별 통화 추가 시 전체가 선택되면 'all'도 추가
+  if (category === 'currencies' && code !== 'all') {
+    const selectedWithoutAll = newSelection.filter((c) => c !== 'all');
+    if (areAllItemsSelected(selectedWithoutAll, ALL_CURRENCY_CODES)) {
+      return { ...prev, currencies: ['all', ...selectedWithoutAll] };
+    }
+  }
+
+  // 상세 지역에서 개별 지역 추가 시 전체가 선택되면 'all'도 추가
+  if (category === 'detailedRegions' && code !== 'all') {
+    const visibleRegions = getVisibleDetailedRegions(prev.regions, detailedRegionList);
+    const visibleCodesWithoutAll = visibleRegions
+      .map((r) => r.code)
+      .filter((c) => c !== 'all');
+    const selectedWithoutAll = newSelection.filter((c) => c !== 'all');
+    if (areAllItemsSelected(selectedWithoutAll, visibleCodesWithoutAll)) {
+      return { ...prev, detailedRegions: ['all', ...selectedWithoutAll] };
+    }
+  }
+
+  return { ...prev, [category]: newSelection };
 }
 
 /**

@@ -1,9 +1,63 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import ImageWithFallback from '@/components/ui/ImageWithFallback';
 import { Button } from '@/components/ui/button';
 import { CATEGORIES } from '@/constants/data';
-import type { Category } from '@/types';
+import type { Category, CategoryAction } from '@/types';
+
+/**
+ * 모바일 기기 여부를 확인하는 함수
+ */
+function isMobileDevice(): boolean {
+  if (typeof window === 'undefined') return false;
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+}
+
+/**
+ * 카테고리 액션을 처리하는 커스텀 훅
+ */
+function useCategoryAction() {
+  const router = useRouter();
+
+  const handleAction = (action: CategoryAction | undefined) => {
+    if (!action) return;
+
+    switch (action.type) {
+      case 'phone':
+        if (isMobileDevice()) {
+          window.location.href = `tel:${action.phoneNumber}`;
+        } else {
+          router.push(action.fallbackHref);
+        }
+        break;
+
+      case 'navigate':
+        router.push(action.href);
+        break;
+
+      case 'navigate-with-currencies':
+        const params = new URLSearchParams();
+        params.set('currencies', action.currencies.join(','));
+        if (action.services.length > 0) {
+          params.set('services', action.services.join(','));
+        }
+        router.push(`${action.href}?${params.toString()}`);
+        break;
+
+      case 'scroll':
+        const element = document.getElementById(action.targetId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+        break;
+    }
+  };
+
+  return handleAction;
+}
 
 interface CategoryIconProps {
   icon: string;
@@ -70,19 +124,20 @@ interface CategoryCardProps {
   category: Category;
   variant: 'desktop' | 'mobile';
   isFullWidth?: boolean;
+  onClick?: () => void;
 }
 
-function CategoryCard({ category, variant, isFullWidth = false }: CategoryCardProps) {
+function CategoryCard({ category, variant, isFullWidth = false, onClick }: CategoryCardProps) {
   const isDesktop = variant === 'desktop';
 
   const cardClassName = isDesktop
-    ? 'flex h-[300px] w-full flex-col items-center justify-center gap-[20px] rounded-[20px] border border-white bg-[#FFF2B2] px-[10px] py-[60px] transition-transform hover:scale-[1.02] hover:bg-[#FFF2B2]/80'
-    : `flex w-full flex-col items-center justify-center gap-2 rounded-[16px] bg-[#FFF2B2] px-3 py-5 hover:bg-[#FFF2B2]/80 ${
+    ? 'flex h-[300px] w-full flex-col items-center justify-center gap-[20px] rounded-[20px] border border-white bg-[#FFF2B2] px-[10px] py-[60px] transition-transform hover:scale-[1.02] hover:bg-[#FFF2B2]/80 cursor-pointer'
+    : `flex w-full flex-col items-center justify-center gap-2 rounded-[16px] bg-[#FFF2B2] px-3 py-5 hover:bg-[#FFF2B2]/80 cursor-pointer ${
         isFullWidth ? 'h-[130px]' : 'h-[160px]'
       }`;
 
   return (
-    <Button variant="ghost" className={cardClassName}>
+    <Button variant="ghost" className={cardClassName} onClick={onClick}>
       <CategoryIcon icon={category.icon} name={category.title} />
       <div
         className={
@@ -103,6 +158,8 @@ function CategoryCard({ category, variant, isFullWidth = false }: CategoryCardPr
  * Client Component - 버튼 인터랙션 필요
  */
 export default function CategorySection() {
+  const handleAction = useCategoryAction();
+
   return (
     <section aria-label="서비스 카테고리">
       <div className="mx-auto flex w-full items-center justify-center gap-[10px] overflow-x-auto px-4 py-8 lg:py-[100px] 2xl:px-[180px]">
@@ -114,8 +171,12 @@ export default function CategorySection() {
               className="relative flex h-[320px] min-w-[160px] w-[240px] flex-1 flex-col items-center pt-[10px]"
               role="listitem"
             >
-              {cat.hasBadge && <Badge text={cat.badgeText} variant="desktop" />}
-              <CategoryCard category={cat} variant="desktop" />
+              {cat.badgeText && <Badge text={cat.badgeText} variant="desktop" />}
+              <CategoryCard
+                category={cat}
+                variant="desktop"
+                onClick={() => handleAction(cat.action)}
+              />
             </div>
           ))}
         </div>
@@ -128,8 +189,13 @@ export default function CategorySection() {
               className={`relative pt-[10px] ${index === 2 ? 'col-span-2' : ''}`}
               role="listitem"
             >
-              {cat.hasBadge && <Badge text={cat.badgeText} variant="mobile" />}
-              <CategoryCard category={cat} variant="mobile" isFullWidth={index === 2} />
+              {cat.badgeText && <Badge text={cat.badgeText} variant="mobile" />}
+              <CategoryCard
+                category={cat}
+                variant="mobile"
+                isFullWidth={index === 2}
+                onClick={() => handleAction(cat.action)}
+              />
             </div>
           ))}
         </div>

@@ -1,6 +1,7 @@
 /**
  * 공통 타입 정의
  */
+import {CurrencyCode} from "@/generated/graphql";
 
 // 통화 관련 타입
 export interface Currency {
@@ -15,9 +16,9 @@ export type ExchangeDirection = 'buy' | 'sell';
 // 리뷰 타입
 export interface Review {
   id: number;
-  flag: string;
   location: string;
   text: string;
+  currencyCode: CurrencyCode
 }
 
 // 키오스크 타입
@@ -38,14 +39,21 @@ export interface KoreaEvent {
   endAt: string;
 }
 
+// 카테고리 액션 타입
+export type CategoryAction =
+  | { type: 'phone'; phoneNumber: string; fallbackHref: string }
+  | { type: 'navigate'; href: string }
+  | { type: 'navigate-with-currencies'; href: string; currencies: string[]; services: string[] }
+  | { type: 'scroll'; targetId: string };
+
 // 카테고리 타입
 export interface Category {
   id: string;
   title: string;
   subtitle: string;
   icon: string;
-  hasBadge: boolean;
-  badgeText: string;
+  badgeText?: string;
+  action?: CategoryAction;
 }
 
 // 브랜드 타입

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import type { LocationItem, SelectedFilters } from '../types';
 import { HOTSPOT_BUTTONS } from '../constants';
+import { useFilterQueryParams } from './useFilterQueryParams';
 
 interface MapCenter {
   lat: number;
@@ -12,6 +13,7 @@ interface MapCenter {
 interface UseLocationStateProps {
   initialLocations: LocationItem[];
   defaultCenter?: MapCenter;
+  initialFilters?: SelectedFilters;
 }
 
 interface UseLocationStateReturn {
@@ -54,7 +56,10 @@ const DEFAULT_CENTER: MapCenter = { lat: 37.5665, lng: 126.978 };
 export function useLocationState({
   initialLocations,
   defaultCenter = DEFAULT_CENTER,
+  initialFilters,
 }: UseLocationStateProps): UseLocationStateReturn {
+  const { currentFilters, updateFiltersInUrl } = useFilterQueryParams();
+
   // Selection state
   const [selectedLocation, setSelectedLocation] = useState<number | null>(null);
   const [selectedHotspot, setSelectedHotspot] = useState<string | null>(null);
@@ -65,8 +70,15 @@ export function useLocationState({
   const [isListExpanded, setIsListExpanded] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
-  // Filter state
-  const [appliedFilters, setAppliedFilters] = useState<SelectedFilters>(DEFAULT_FILTERS);
+  // Filter state - use URL params or initial filters
+  const [appliedFilters, setAppliedFilters] = useState<SelectedFilters>(
+    initialFilters ?? currentFilters
+  );
+
+  // Sync with URL params when they change
+  useEffect(() => {
+    setAppliedFilters(currentFilters);
+  }, [currentFilters]);
 
   // 현재 위치 가져오기
   useEffect(() => {
@@ -138,6 +150,7 @@ export function useLocationState({
 
   const applyFilters = (filters: SelectedFilters) => {
     setAppliedFilters(filters);
+    updateFiltersInUrl(filters);
   };
 
   // Computed values

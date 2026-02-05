@@ -55,7 +55,9 @@
       "Bash(export NVM_DIR=\"$HOME/.nvm\")",
       "Bash([ -s \"$NVM_DIR/nvm.sh\" ])",
       "Bash(. \"$NVM_DIR/nvm.sh\")",
-      "Bash(npx:*)"
+      "Bash(npx:*)",
+      "Bash(/opt/homebrew/bin/pnpm lint:*)",
+      "WebFetch(domain:www.apollographql.com)"
     ]
   }
 }

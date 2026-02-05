@@ -7,7 +7,11 @@ import { SectionTitle } from '@/components/ui/SectionTitle';
 import { ChevronDown } from 'lucide-react';
 import { useToggleAnimation } from '@/hooks';
 import { EXCHANGE_RATE } from '@/constants';
-import type { ExchangeRateInfo } from '@/generated/graphql';
+import {
+  useGetWonForeignBestRatesLazyQuery,
+  useGetForeignWonBestRatesLazyQuery,
+  type ExchangeRateInfo,
+} from '@/generated/graphql';
 import { sortCurrencies } from '../utils/currency';
 import { BUY_CURRENCY_ORDER, SELL_CURRENCY_ORDER } from '../constants';
 import { CurrencyCard } from './CurrencyCard';
@@ -24,9 +28,19 @@ export function ExchangeRateSectionClient({
   initialSellRates,
 }: ExchangeRateSectionClientProps) {
   const [activeTab, setActiveTab] = useState<ExchangeDirection>('buy');
-  const [buyRates, setBuyRates] = useState(initialBuyRates);
-  const [sellRates, setSellRates] = useState(initialSellRates);
-  const [isRefetching, setIsRefetching] = useState(false);
+
+  const [fetchBuyRates, { data: buyData, loading: buyLoading }] =
+    useGetWonForeignBestRatesLazyQuery({
+      fetchPolicy: 'cache-and-network',
+    });
+  const [fetchSellRates, { data: sellData, loading: sellLoading }] =
+    useGetForeignWonBestRatesLazyQuery({
+      fetchPolicy: 'cache-and-network',
+    });
+
+  // Apollo 캐시 데이터 또는 초기 SSR 데이터 사용
+  const buyRates = buyData?.getWonForeignBestRates?.currencyRates ?? initialBuyRates;
+  const sellRates = sellData?.getForeignWonBestRates?.currencyRates ?? initialSellRates;
 
   const rawCurrencies = activeTab === 'buy' ? buyRates : sellRates;
   const currencies = sortCurrencies(
@@ -42,33 +56,26 @@ export function ExchangeRateSectionClient({
     initialDisplayCount: EXCHANGE_RATE.INITIAL_DISPLAY_COUNT,
   });
 
-  const handleTabChange = async (tab: string) => {
+  const handleTabChange = (tab: string) => {
     const newTab = tab as ExchangeDirection;
     setActiveTab(newTab);
     reset();
 
-    // Refetch data via API route
-    setIsRefetching(true);
-    try {
-      const response = await fetch(`/api/exchange-rates?direction=${newTab}`);
-      const data = await response.json();
-
-      if (newTab === 'buy') {
-        setBuyRates(data.currencyRates);
-      } else {
-        setSellRates(data.currencyRates);
-      }
-    } catch (error) {
-      console.error('Failed to refetch exchange rates:', error);
-    } finally {
-      setIsRefetching(false);
+    // 백그라운드에서 fetch, Apollo가 data를 자동 업데이트
+    if (newTab === 'buy') {
+      fetchBuyRates();
+    } else {
+      fetchSellRates();
     }
   };
 
-  const isLoading = isRefetching;
+  // 데이터가 있으면 로딩 표시 안 함 (캐시 히트 시 깜빡임 방지)
+  const isLoading =
+    (activeTab === 'buy' && buyLoading && !buyRates.length) ||
+    (activeTab === 'sell' && sellLoading && !sellRates.length);
 
   return (
-    <section className="w-full overflow-hidden bg-[#FFF9DF]" aria-labelledby="exchange-rate-title">
+    <section className="w-full overflow-hidden bg-[#FFF9DF]" aria-labelledby="exchange-rate-title" id={"exchange-rate-section"}>
       <div className="mx-auto flex w-full flex-col items-center gap-[30px] px-4 py-8 md:gap-[50px] md:py-[100px] 2xl:px-[320px]">
         <SectionTitle>Spot The Best Exchange Rates In Seconds!</SectionTitle>
 

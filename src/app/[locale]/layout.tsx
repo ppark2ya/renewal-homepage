@@ -5,6 +5,7 @@ import {routing} from '@/i18n/routing';
 import type { Metadata } from "next";
 import { ApolloWrapper } from '@/components/providers/apollo-provider';
 import { Toaster } from '@/components/ui/sonner';
+import { ScrollToTopButton } from '@/components/ui/ScrollToTopButton';
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -38,6 +39,7 @@ export default async function RootLayout({
           <NextIntlClientProvider messages={messages}>
             {children}
             <Toaster />
+            <ScrollToTopButton />
           </NextIntlClientProvider>
         </ApolloWrapper>
       </body>

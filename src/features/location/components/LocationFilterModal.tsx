@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import {
   Dialog,
@@ -22,6 +22,7 @@ import {
   toggleFilterSelection,
   findFilterByType,
   findFilterById,
+  normalizeFiltersWithAll,
 } from '../utils/filterUtils';
 import FilterButton from './filter/FilterButton';
 import CurrencyFilterButton from './filter/CurrencyFilterButton';
@@ -64,12 +65,22 @@ export default function LocationFilterModal({
   const currencyFilters = findFilterByType(filterData, 'CURRENCY');
   const currencyFilter = currencyFilters ? findFilterById(currencyFilters.filterList, 4) : undefined;
 
+  // Normalize filters when modal opens or initialFilters change
+  useEffect(() => {
+    if (isOpen) {
+      const visibleRegions = getVisibleDetailedRegions(
+        initialFilters.regions,
+        detailedRegionList
+      );
+      const visibleCodes = visibleRegions.map((r) => r.code);
+      const normalizedFilters = normalizeFiltersWithAll(initialFilters, visibleCodes);
+      setSelectedFilters(normalizedFilters);
+    }
+  }, [isOpen, initialFilters, detailedRegionList]);
+
   // Handle dialog open state change
   const handleOpenChange = (open: boolean) => {
-    if (open) {
-      // Reset to initial filters when modal opens
-      setSelectedFilters(initialFilters);
-    } else {
+    if (!open) {
       onClose();
     }
   };
@@ -100,7 +111,7 @@ export default function LocationFilterModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className="flex h-full max-h-[100vh] w-full max-w-[768px] flex-col gap-0 rounded-none p-0 md:h-[600px] md:max-h-[90vh] md:rounded-2xl [&>button]:hidden overflow-clip">
+      <DialogContent className="flex h-full max-h-[100vh] w-full max-w-[778px] flex-col gap-0 rounded-none p-0 md:h-[600px] md:max-h-[90vh] md:rounded-2xl [&>button]:hidden overflow-clip">
         {/* Header */}
         <DialogHeader className="flex h-[54px] shrink-0 flex-row items-center justify-between border-b-0 px-4">
           <div className="flex items-end gap-2">

@@ -198,12 +198,12 @@ export const MOCK_FILTER_DATA: FilterResponseItem[] = [
         name: 'Currency Selection',
         filterDetailList: [
           { code: 'all', name: 'All' },
-          { code: 'twd', name: 'TWD' },
-          { code: 'jpy', name: 'JPY' },
-          { code: 'usd', name: 'USD' },
-          { code: 'cny', name: 'CNY' },
-          { code: 'hkd', name: 'HKD' },
-          { code: 'sgd', name: 'SGD' },
+          { code: 'TWD', name: 'TWD' },
+          { code: 'JPY', name: 'JPY' },
+          { code: 'USD', name: 'USD' },
+          { code: 'CNY', name: 'CNY' },
+          { code: 'HKD', name: 'HKD' },
+          { code: 'SGD', name: 'SGD' },
         ],
       },
     ],
@@ -217,12 +217,12 @@ export const OPERATING_HOURS_OPTIONS = [
 
 // 통화 플래그 이미지 매핑
 export const CURRENCY_FLAGS: Record<string, string> = {
-  twd: '/images/flags/tw.svg',
-  jpy: '/images/flags/jp.svg',
-  usd: '/images/flags/us.svg',
-  cny: '/images/flags/cn.svg',
-  hkd: '/images/flags/hk.svg',
-  sgd: '/images/flags/sg.svg',
+  TWD: '/images/flags/tw.svg',
+  JPY: '/images/flags/jp.svg',
+  USD: '/images/flags/us.svg',
+  CNY: '/images/flags/cn.svg',
+  HKD: '/images/flags/hk.svg',
+  SGD: '/images/flags/sg.svg',
 };
 
 // 지역별 상세 지역 매핑 (All 제외)
@@ -250,4 +250,4 @@ export const REGION_TO_DETAILED_REGIONS: Record<string, string[]> = {
 };
 
 // 모든 통화 코드 목록 (All 제외)
-export const ALL_CURRENCY_CODES = ['twd', 'jpy', 'usd', 'cny', 'hkd', 'sgd'];
+export const ALL_CURRENCY_CODES = ['TWD', 'JPY', 'USD', 'CNY', 'HKD', 'SGD'];

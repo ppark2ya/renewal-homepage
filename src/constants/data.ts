@@ -13,7 +13,36 @@ import type {
   Currency,
   NavItem,
   FamilySite,
+  CategoryAction,
 } from '@/types';
+import {CurrencyCode} from "@/generated/graphql";
+
+// 카테고리별 액션 정의
+export const CATEGORY_ACTIONS: Record<string, CategoryAction> = {
+  'customer-center': {
+    type: 'phone',
+    phoneNumber: '1666-6921',
+    fallbackHref: '/customer-center',
+  },
+  location: {
+    type: 'navigate',
+    href: '/location',
+  },
+  exchange: {
+    type: 'navigate-with-currencies',
+    href: '/location',
+    currencies: ['TWD', 'JPY', 'USD', 'HKD', 'CNY', 'SGD'],
+    services: ['krw_to_foreign'],
+  },
+  rate: {
+    type: 'scroll',
+    targetId: 'exchange-rate-section',
+  },
+  card: {
+    type: 'navigate',
+    href: '/the-free',
+  },
+};
 
 // 카테고리 데이터
 export const CATEGORIES: Category[] = [
@@ -21,88 +50,120 @@ export const CATEGORIES: Category[] = [
     id: 'customer-center',
     title: 'Customer',
     subtitle: 'Service Center',
-    icon: `${R2_BASE_URL}/customer_service_center_icon.png`,
-    hasBadge: false,
-    badgeText: 'Up to 100% discount',
+    icon: `/images/icons/customer_service_center_icon.png`,
+    action: CATEGORY_ACTIONS['customer-center'],
   },
   {
     id: 'location',
     title: 'Kiosk',
     subtitle: 'Location',
-    icon: `${R2_BASE_URL}/krw_kiosk_localtion_icon.png`,
-    hasBadge: false,
-    badgeText: 'Up to 100% discount',
+    icon: `/images/icons/krw_kiosk_localtion_icon.png`,
+    action: CATEGORY_ACTIONS['location'],
   },
   {
     id: 'exchange',
     title: 'KRW →',
     subtitle: 'Foreign Currency',
-    icon: `${R2_BASE_URL}/foreign_currency_icon.png`,
-    hasBadge: true,
+    icon: `/images/icons/foreign_currency_icon.png`,
     badgeText: 'Up to 100% discount',
+    action: CATEGORY_ACTIONS['exchange'],
   },
   {
     id: 'rate',
     title: 'Real-Time',
     subtitle: 'Exchange Rate',
-    icon: `${R2_BASE_URL}/real_time_exchange_rate_icon.png`,
-    hasBadge: false,
-    badgeText: 'Up to 100% discount',
+    icon: `/images/icons/real_time_exchange_rate_icon.png`,
+    action: CATEGORY_ACTIONS['rate'],
   },
   {
     id: 'card',
     title: 'Tax Free',
     subtitle: 'Refund Code',
-    icon: `${R2_BASE_URL}/the_free_prepaid_card_icon.png`,
-    hasBadge: false,
-    badgeText: 'Up to 100% discount',
+    icon: `/images/icons/the_free_prepaid_card_icon.png`,
+    action: CATEGORY_ACTIONS['card'],
   },
 ];
 
 // 브랜드 로고 데이터
 export const BRANDS: Brand[] = [
-  { name: 'OLIVE YOUNG', logo: `${R2_BASE_URL}/olive_young_logo.png`, width: 266, height: 30 },
-  { name: 'DAISO', logo: `${R2_BASE_URL}/daiso_logo.png`, width: 169, height: 40 },
-  { name: 'GS25', logo: `${R2_BASE_URL}/gs_25_logo.png`, width: 127, height: 40 },
-  { name: 'CU', logo: `${R2_BASE_URL}/cu_logo.png`, width: 74, height: 46 },
-  { name: 'eSIM', logo: `${R2_BASE_URL}/esim_logo.png`, width: 150, height: 51 },
+  { name: 'OLIVE YOUNG', logo: `/images/brands/olive_young_logo.png`, width: 266, height: 30 },
+  { name: 'DAISO', logo: `/images/brands/daiso_logo.png`, width: 169, height: 40 },
+  { name: 'GS25', logo: `/images/brands/gs_25_logo.png`, width: 127, height: 40 },
+  { name: 'CU', logo: `/images/brands/cu_logo.png`, width: 74, height: 46 },
+  { name: 'eSIM', logo: `/images/brands/esim_logo.png`, width: 150, height: 51 },
 ];
 
 // 리뷰 데이터
 export const REVIEWS: Review[] = [
   {
     id: 1,
-    flag: '/images/flags/us.svg',
+    currencyCode: CurrencyCode.Usd,
     location: 'Blue Line Park Cheongsapo Station',
     text: 'Absolutely impressed with Dozn Exchange!\nThe user-friendly kiosk made currency exchange a breeze, and the rates were competitive.\nWill definitely be using it again on my next trip!',
   },
   {
     id: 2,
-    flag: '/images/flags/jp.svg',
+    currencyCode: CurrencyCode.Jpy,
     location: '江南駅 荷物預かり所',
     text: '近くに両替する場所がないのに荷物も預けることができ、\n両替もできていいですね。',
   },
   {
     id: 3,
-    flag: '/images/flags/cn.svg',
+    currencyCode: CurrencyCode.Cny,
     location: '明洞站 5 号出口前',
     text: '中国朋友来拜访了，所以一起拜访了。\n因为很容易使用，所以很好！ 离地铁站也很近。',
   },
   {
     id: 4,
-    flag: '/images/flags/us.svg',
+    currencyCode: CurrencyCode.Usd,
     location: 'Hongdae Square Lab Luggage Storage',
     text: "Dozn kiosk was very easy to use, and the entire exchange process didn't take long.\nIt was fast, simple, and very convenient.\nIt was nice to be able to exchange money without having to line up or talk to the staff.",
   },
   {
     id: 5,
-    flag: '/images/flags/jp.svg',
+    currencyCode: CurrencyCode.Jpy,
     location: '明洞スマートラゲージ',
     text: '無人両替機はとても使いやすく、操作が簡単で速いです。\n短い時間で両替が終わるので本当に便利でした。\n次の韓国旅行にまた訪れます！',
   },
   {
     id: 6,
-    flag: '/images/flags/cn.svg',
+    currencyCode: CurrencyCode.Cny,
+    location: '新论岘站第一大药房',
+    text: '不用排队、不用和工作人员沟通，\n自己就能轻松兑换。\n汇率也透明，让人用得很放心。',
+  },
+  {
+    id: 7,
+    currencyCode: CurrencyCode.Usd,
+    location: 'Blue Line Park Cheongsapo Station',
+    text: 'Absolutely impressed with Dozn Exchange!\nThe user-friendly kiosk made currency exchange a breeze, and the rates were competitive.\nWill definitely be using it again on my next trip!',
+  },
+  {
+    id: 8,
+    currencyCode: CurrencyCode.Jpy,
+    location: '江南駅 荷物預かり所',
+    text: '近くに両替する場所がないのに荷物も預けることができ、\n両替もできていいですね。',
+  },
+  {
+    id: 9,
+    currencyCode: CurrencyCode.Cny,
+    location: '明洞站 5 号出口前',
+    text: '中国朋友来拜访了，所以一起拜访了。\n因为很容易使用，所以很好！ 离地铁站也很近。',
+  },
+  {
+    id: 10,
+    currencyCode: CurrencyCode.Usd,
+    location: 'Hongdae Square Lab Luggage Storage',
+    text: "Dozn kiosk was very easy to use, and the entire exchange process didn't take long.\nIt was fast, simple, and very convenient.\nIt was nice to be able to exchange money without having to line up or talk to the staff.",
+  },
+  {
+    id: 11,
+    currencyCode: CurrencyCode.Jpy,
+    location: '明洞スマートラゲージ',
+    text: '無人両替機はとても使いやすく、操作が簡単で速いです。\n短い時間で両替が終わるので本当に便利でした。\n次の韓国旅行にまた訪れます！',
+  },
+  {
+    id: 12,
+    currencyCode: CurrencyCode.Cny,
     location: '新论岘站第一大药房',
     text: '不用排队、不用和工作人员沟通，\n自己就能轻松兑换。\n汇率也透明，让人用得很放心。',
   },
