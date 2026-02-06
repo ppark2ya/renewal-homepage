@@ -33,5 +33,23 @@
       "operatingHours": "운영 시간",
       "apply": "적용"
     }
+  },
+  "KioskDetailPage": {
+    "address": "주소",
+    "locationDetails": "위치 상세",
+    "operatingHours": "운영시간",
+    "availableServices": "제공 서비스",
+    "krwToForeign": "KRW → Foreign (외화환전)",
+    "krwToForeignDesc": "외화환전 가능 통화와 권종입니다. 재고 및 정상 가동일때만 가능합니다.",
+    "foreignToKrw": "Foreign → KRW (원화환전 가능 통화)",
+    "foreignToKrwDesc": "원화환전 가능 통화입니다. 재고 및 정상 가동일때만 가능합니다.",
+    "available": "가능",
+    "unavailable": "불가",
+    "locationList": "Location List",
+    "copyAddress": "주소 복사",
+    "addressCopied": "주소가 복사되었습니다.",
+    "copyFailed": "복사에 실패했습니다.",
+    "share": "공유",
+    "linkCopied": "링크가 복사되었습니다."
   }
 }

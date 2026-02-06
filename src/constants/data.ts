@@ -3,19 +3,18 @@
  * 컴포넌트에서 사용되는 하드코딩된 데이터를 중앙 관리
  */
 
-import { R2_BASE_URL } from './index';
 import type {
-  Category,
   Brand,
-  Review,
+  Category,
+  CategoryAction,
+  Currency,
+  FamilySite,
   Kiosk,
   KoreaEvent,
-  Currency,
   NavItem,
-  FamilySite,
-  CategoryAction,
+  Review,
 } from '@/types';
-import {CurrencyCode} from "@/graphql/generated/graphql";
+import { CurrencyCode } from '@/graphql/generated/graphql';
 
 // 카테고리별 액션 정의
 export const CATEGORY_ACTIONS: Record<string, CategoryAction> = {
@@ -32,7 +31,7 @@ export const CATEGORY_ACTIONS: Record<string, CategoryAction> = {
     type: 'navigate-with-currencies',
     href: '/location',
     currencies: ['TWD', 'JPY', 'USD', 'HKD', 'CNY', 'SGD'],
-    services: ['krw_to_foreign'],
+    services: ['WON_FOREIGN'],
   },
   rate: {
     type: 'scroll',
@@ -279,10 +278,14 @@ export const SELL_CURRENCIES: Currency[] = [
 // 네비게이션 아이템
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Location', href: '/location' },
-  { label: 'Benefit', href: '/benefit', subItems: [
+  {
+    label: 'Benefit',
+    href: '/benefit',
+    subItems: [
       { label: 'Event', href: '/benefit/event' },
       { label: 'Coupon', href: '/benefit/coupon' },
-    ] },
+    ],
+  },
   {
     label: 'THE Free',
     href: '/the-free',

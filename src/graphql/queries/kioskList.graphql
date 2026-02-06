@@ -22,6 +22,9 @@ query GetKioskList($page: Int!, $size: Int!, $filterList: [String!], $keyword: S
         code
         name
       }
+      terminalCurrencyList {
+        currencyCode
+      }
     }
     pageNumber
     pageSize

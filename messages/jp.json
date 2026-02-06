@@ -33,5 +33,23 @@
       "operatingHours": "営業時間",
       "apply": "適用"
     }
+  },
+  "KioskDetailPage": {
+    "address": "住所",
+    "locationDetails": "場所の詳細",
+    "operatingHours": "営業時間",
+    "availableServices": "利用可能なサービス",
+    "krwToForeign": "KRW → 外貨 (残高)",
+    "krwToForeignDesc": "利用可能な通貨と額面はキオスクの場所とサービス状態によって異なる場合があります。",
+    "foreignToKrw": "外貨 → KRW (両替可能通貨)",
+    "foreignToKrwDesc": "利用可能な通貨と額面はキオスクの場所とサービス状態によって異なる場合があります。",
+    "available": "可能",
+    "unavailable": "不可",
+    "locationList": "Location List",
+    "copyAddress": "住所をコピー",
+    "addressCopied": "住所がコピーされました。",
+    "copyFailed": "コピーに失敗しました。",
+    "share": "共有",
+    "linkCopied": "リンクがコピーされました。"
   }
 }

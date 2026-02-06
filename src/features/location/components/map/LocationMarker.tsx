@@ -30,13 +30,13 @@ export default function LocationMarker({
     <>
       <AdvancedMarker
         ref={markerRef}
-        position={{ lat: location.latitude, lng: location.longitude }}
-        title={location.name}
+        position={{ lat: parseFloat(location.lat), lng: parseFloat(location.lon) }}
+        title={location.terminalName}
         onClick={onClick}
       >
         <Image
           src="/images/location/marker.png"
-          alt={location.name}
+          alt={location.terminalName}
           width={width}
           height={height}
           style={{

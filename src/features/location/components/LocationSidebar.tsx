@@ -5,26 +5,23 @@ import { cn } from '@/lib/utils';
 import SearchBox from './SearchBox';
 import LocationCard from './LocationCard';
 import { useLocationSearch } from '../hooks/useLocationSearch';
-import { SAMPLE_LOCATIONS } from '../constants';
 import type { LocationItem } from '../types';
 
 interface LocationSidebarProps {
-  locations?: LocationItem[];
+  locations: LocationItem[];
   selectedLocation?: number | null;
   onLocationSelect?: (id: number) => void;
   onHotspotSelect?: (hotspotId: string) => void;
   onFilterClick?: () => void;
-  visibleCount?: number;
   className?: string;
 }
 
 export default function LocationSidebar({
-  locations = SAMPLE_LOCATIONS,
+  locations,
   selectedLocation,
   onLocationSelect,
   onHotspotSelect,
   onFilterClick,
-  visibleCount,
   className,
 }: LocationSidebarProps) {
   const [selectedHotspot, setSelectedHotspot] = useState<string | null>(null);
@@ -46,13 +43,9 @@ export default function LocationSidebar({
       />
 
       {/* Total Count */}
-      {visibleCount !== undefined && (
-        <div className="px-4 py-3 border-b border-gray-100">
-          <span className="text-sm font-medium text-gray-700">
-            Total : {visibleCount} Kiosks
-          </span>
-        </div>
-      )}
+      <div className="px-4 py-3 border-b border-gray-100">
+        <span className="text-sm font-medium text-gray-700">Total : {locations.length} Kiosks</span>
+      </div>
 
       {/* Location List */}
       <div className="flex-1 overflow-y-auto">

@@ -8,7 +8,6 @@ import MobileListItem from './MobileListItem';
 
 interface MobileBottomSheetProps {
   locations: LocationItem[];
-  totalCount: number;
   isExpanded: boolean;
   onToggle: () => void;
   onLocationSelect: (id: number) => void;
@@ -23,7 +22,6 @@ const HANDLE_HEIGHT = 56;
 
 export default function MobileBottomSheet({
   locations,
-  totalCount,
   isExpanded,
   onToggle,
   onLocationSelect,
@@ -81,7 +79,7 @@ export default function MobileBottomSheet({
             )}
           </div>
           <span className="text-[15px] text-[#111]">
-            Total : <span className="font-semibold">{totalCount}</span> Kiosks
+            Total : <span className="font-semibold">{locations.length}</span> Kiosks
           </span>
         </button>
 

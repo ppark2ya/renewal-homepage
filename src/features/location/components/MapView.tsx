@@ -8,18 +8,16 @@ import {
 } from '@vis.gl/react-google-maps';
 import { cn } from '@/lib/utils';
 import type { LocationItem } from '../types';
-import { SAMPLE_LOCATIONS } from '../constants';
 import LocationMarker from './map/LocationMarker';
 import MapController from './map/MapController';
 import MapErrorPlaceholder from './map/MapErrorPlaceholder';
 import MapFallback from './map/MapFallback';
 
 interface MapViewProps {
-  locations?: LocationItem[];
+  locations: LocationItem[];
   selectedLocation?: number | null;
   onMarkerClick?: (id: number) => void;
   onMarkerClose?: () => void;
-  onVisibleLocationsChange?: (count: number) => void;
   center?: { lat: number; lng: number };
   zoom?: number;
   className?: string;
@@ -30,11 +28,10 @@ const DEFAULT_CENTER = { lat: 37.5665, lng: 126.978 };
 const DEFAULT_ZOOM = 12;
 
 export default function MapView({
-  locations = SAMPLE_LOCATIONS,
+  locations,
   selectedLocation = null,
   onMarkerClick,
   onMarkerClose,
-  onVisibleLocationsChange,
   center = DEFAULT_CENTER,
   zoom = DEFAULT_ZOOM,
   className,
@@ -85,7 +82,6 @@ export default function MapView({
             center={center}
             selectedLocation={selectedLocation}
             locations={locations}
-            onVisibleLocationsChange={onVisibleLocationsChange}
           />
 
           {locations.map((location) => (

@@ -33,5 +33,23 @@
       "operatingHours": "Operating Hours",
       "apply": "Apply"
     }
+  },
+  "KioskDetailPage": {
+    "address": "Address",
+    "locationDetails": "Location Details",
+    "operatingHours": "Operating Hours",
+    "availableServices": "Available Services",
+    "krwToForeign": "KRW → Foreign (Balance)",
+    "krwToForeignDesc": "Available Currencies and Denominations May Vary by Kiosk Location and Service Status.",
+    "foreignToKrw": "Foreign → KRW (Available Exchange Currencies)",
+    "foreignToKrwDesc": "Available Currencies and Denominations May Vary by Kiosk Location and Service Status.",
+    "available": "Available",
+    "unavailable": "Unavailable",
+    "locationList": "Location List",
+    "copyAddress": "Copy address",
+    "addressCopied": "Address has been copied.",
+    "copyFailed": "Failed to copy.",
+    "share": "Share",
+    "linkCopied": "Link has been copied."
   }
 }

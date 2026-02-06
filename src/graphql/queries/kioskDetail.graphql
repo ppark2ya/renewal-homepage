@@ -1,0 +1,32 @@
+query GetKioskDetail($terminalId: Float!) {
+  getKioskDetail(terminalId: $terminalId) {
+    terminalName
+    addr
+    image01
+    image02
+    lat
+    lon
+    memo
+    openTime
+    closeTime
+    operationDay
+    service
+    serviceList {
+      code
+      name
+    }
+    currencyList {
+      currencyCode
+      currencyAmountList
+    }
+    foreignCurrencyList {
+      currencyCode
+      currencyAmount
+      amount
+      count
+      availableRelease
+      usedCurrency
+      releaseYn
+    }
+  }
+}

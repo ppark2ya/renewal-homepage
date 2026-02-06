@@ -577,6 +577,13 @@ export type GetForeignWonBestRatesQueryVariables = Exact<{ [key: string]: never;
 
 export type GetForeignWonBestRatesQuery = { __typename?: 'Query', getForeignWonBestRates: { __typename?: 'BaseRateResponse', currencyRates: Array<{ __typename?: 'ExchangeRateInfo', currencyCode: CurrencyCode, spreadRate: number, prevSpreadRate?: number | null, terminalId: number }> } };
 
+export type GetKioskDetailQueryVariables = Exact<{
+  terminalId: Scalars['Float']['input'];
+}>;
+
+
+export type GetKioskDetailQuery = { __typename?: 'Query', getKioskDetail: { __typename?: 'KioskDetail', terminalName: string, addr: string, image01: string, image02: string, lat: string, lon: string, memo?: string | null, openTime?: string | null, closeTime?: string | null, operationDay: string, service?: string | null, serviceList: Array<{ __typename?: 'KioskService', code: string, name: string }>, currencyList: Array<{ __typename?: 'ForeignWonEnableCurrency', currencyCode: CurrencyCode, currencyAmountList: Array<string> }>, foreignCurrencyList: Array<{ __typename?: 'WonForeignEnableCurrency', currencyCode: CurrencyCode, currencyAmount: CurrencyAmount, amount: number, count: number, availableRelease: boolean, usedCurrency: boolean, releaseYn?: string | null }> } };
+
 export type GetKioskFilterQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -590,7 +597,7 @@ export type GetKioskListQueryVariables = Exact<{
 }>;
 
 
-export type GetKioskListQuery = { __typename?: 'Query', getKioskList: { __typename?: 'PaginatedKiosk', pageNumber: number, pageSize: number, totalElements: number, totalPages: number, hasNext: boolean, hasPrevious: boolean, isFirst: boolean, isLast: boolean, isEmpty: boolean, list: Array<{ __typename?: 'KioskInfo', id: number, terminalId: number, terminalName: string, terminalNo: string, address: string, image01: string, image02: string, lat: string, lon: string, memo?: string | null, openTime?: string | null, closeTime?: string | null, operationDay: string, status?: string | null, locale: string, postingYn: string, service: string, serviceList: Array<{ __typename?: 'KioskService', code: string, name: string }> }> } };
+export type GetKioskListQuery = { __typename?: 'Query', getKioskList: { __typename?: 'PaginatedKiosk', pageNumber: number, pageSize: number, totalElements: number, totalPages: number, hasNext: boolean, hasPrevious: boolean, isFirst: boolean, isLast: boolean, isEmpty: boolean, list: Array<{ __typename?: 'KioskInfo', id: number, terminalId: number, terminalName: string, terminalNo: string, address: string, image01: string, image02: string, lat: string, lon: string, memo?: string | null, openTime?: string | null, closeTime?: string | null, operationDay: string, status?: string | null, locale: string, postingYn: string, service: string, serviceList: Array<{ __typename?: 'KioskService', code: string, name: string }>, terminalCurrencyList: Array<{ __typename?: 'ReleaseCurrency', currencyCode: CurrencyCode }> }> } };
 
 
 export const GetWonForeignBestRatesDocument = gql`
@@ -687,6 +694,76 @@ export type GetForeignWonBestRatesQueryHookResult = ReturnType<typeof useGetFore
 export type GetForeignWonBestRatesLazyQueryHookResult = ReturnType<typeof useGetForeignWonBestRatesLazyQuery>;
 export type GetForeignWonBestRatesSuspenseQueryHookResult = ReturnType<typeof useGetForeignWonBestRatesSuspenseQuery>;
 export type GetForeignWonBestRatesQueryResult = ApolloReactCommon.QueryResult<GetForeignWonBestRatesQuery, GetForeignWonBestRatesQueryVariables>;
+export const GetKioskDetailDocument = gql`
+    query GetKioskDetail($terminalId: Float!) {
+  getKioskDetail(terminalId: $terminalId) {
+    terminalName
+    addr
+    image01
+    image02
+    lat
+    lon
+    memo
+    openTime
+    closeTime
+    operationDay
+    service
+    serviceList {
+      code
+      name
+    }
+    currencyList {
+      currencyCode
+      currencyAmountList
+    }
+    foreignCurrencyList {
+      currencyCode
+      currencyAmount
+      amount
+      count
+      availableRelease
+      usedCurrency
+      releaseYn
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetKioskDetailQuery__
+ *
+ * To run a query within a React component, call `useGetKioskDetailQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetKioskDetailQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetKioskDetailQuery({
+ *   variables: {
+ *      terminalId: // value for 'terminalId'
+ *   },
+ * });
+ */
+export function useGetKioskDetailQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetKioskDetailQuery, GetKioskDetailQueryVariables> & ({ variables: GetKioskDetailQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetKioskDetailQuery, GetKioskDetailQueryVariables>(GetKioskDetailDocument, options);
+      }
+export function useGetKioskDetailLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetKioskDetailQuery, GetKioskDetailQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetKioskDetailQuery, GetKioskDetailQueryVariables>(GetKioskDetailDocument, options);
+        }
+// @ts-ignore
+export function useGetKioskDetailSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetKioskDetailQuery, GetKioskDetailQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetKioskDetailQuery, GetKioskDetailQueryVariables>;
+export function useGetKioskDetailSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetKioskDetailQuery, GetKioskDetailQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetKioskDetailQuery | undefined, GetKioskDetailQueryVariables>;
+export function useGetKioskDetailSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetKioskDetailQuery, GetKioskDetailQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetKioskDetailQuery, GetKioskDetailQueryVariables>(GetKioskDetailDocument, options);
+        }
+export type GetKioskDetailQueryHookResult = ReturnType<typeof useGetKioskDetailQuery>;
+export type GetKioskDetailLazyQueryHookResult = ReturnType<typeof useGetKioskDetailLazyQuery>;
+export type GetKioskDetailSuspenseQueryHookResult = ReturnType<typeof useGetKioskDetailSuspenseQuery>;
+export type GetKioskDetailQueryResult = ApolloReactCommon.QueryResult<GetKioskDetailQuery, GetKioskDetailQueryVariables>;
 export const GetKioskFilterDocument = gql`
     query GetKioskFilter {
   getKioskFilter {
@@ -766,6 +843,9 @@ export const GetKioskListDocument = gql`
       serviceList {
         code
         name
+      }
+      terminalCurrencyList {
+        currencyCode
       }
     }
     pageNumber

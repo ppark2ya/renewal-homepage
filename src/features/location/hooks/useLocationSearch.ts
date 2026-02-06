@@ -30,7 +30,7 @@ export function useLocationSearch({
   // React Compiler handles memoization automatically
   const filteredLocations = searchQuery.trim()
     ? locations.filter((location) =>
-        location.name.toLowerCase().includes(searchQuery.toLowerCase())
+        location.terminalName.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : locations;
 

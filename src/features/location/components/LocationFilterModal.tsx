@@ -1,28 +1,29 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { X } from 'lucide-react';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogClose,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';
+import { CURRENCY_FLAGS, OPERATING_HOURS_OPTIONS } from '../constants';
+import type { FilterResponseItem, SelectedFilters } from '../types';
 import {
-  MOCK_FILTER_DATA,
-  OPERATING_HOURS_OPTIONS,
-  CURRENCY_FLAGS,
-} from '../constants';
-import type { SelectedFilters, FilterResponseItem } from '../types';
-import {
-  getVisibleDetailedRegions,
-  toggleFilterSelection,
   findFilterByType,
-  findFilterById,
+  getVisibleDetailedRegions,
   normalizeFiltersWithAll,
+  toggleFilterSelection,
+  buildRegionToDetailedRegions,
+  buildAllDetailedRegions,
+  buildServiceList,
+  buildCurrencyList,
+  buildAllCurrencyCodes,
+  findKrwToForeignCode,
 } from '../utils/filterUtils';
 import FilterButton from './filter/FilterButton';
 import CurrencyFilterButton from './filter/CurrencyFilterButton';
@@ -33,6 +34,8 @@ interface LocationFilterModalProps {
   onClose: () => void;
   onApply: (filters: SelectedFilters) => void;
   initialFilters?: SelectedFilters;
+  filterData: FilterResponseItem[];
+  filterLoading?: boolean;
 }
 
 const DEFAULT_FILTERS: SelectedFilters = {
@@ -48,35 +51,55 @@ export default function LocationFilterModal({
   onClose,
   onApply,
   initialFilters = DEFAULT_FILTERS,
+  filterData,
+  filterLoading = false,
 }: LocationFilterModalProps) {
   const t = useTranslations('LocationPage.filter');
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>(initialFilters);
-  const [filterData] = useState<FilterResponseItem[]>(MOCK_FILTER_DATA);
 
-  // Get filter data
-  const locationFilters = findFilterByType(filterData, 'LOCATION');
-  const regionFilter = locationFilters ? findFilterById(locationFilters.filterList, 1) : undefined;
-  const detailedRegionFilter = locationFilters ? findFilterById(locationFilters.filterList, 2) : undefined;
-  const detailedRegionList = detailedRegionFilter?.filterDetailList || [];
+  // API 데이터에서 필터 구조 파생 - useMemo로 참조 안정화
+  const {
+    locationFilterList,
+    regionToDetailedRegions,
+    allDetailedRegions,
+    serviceList,
+    currencyList,
+    allCurrencyCodes,
+    krwToForeignCode,
+  } = useMemo(() => {
+    const locationData = findFilterByType(filterData, 'LOCATION');
+    const locationList = locationData?.filterList || [];
 
-  const serviceFilters = findFilterByType(filterData, 'SERVICE');
-  const servicesFilter = serviceFilters ? findFilterById(serviceFilters.filterList, 3) : undefined;
+    const serviceData = findFilterByType(filterData, 'SERVICE');
+    const serviceFilterList = serviceData?.filterList || [];
 
-  const currencyFilters = findFilterByType(filterData, 'CURRENCY');
-  const currencyFilter = currencyFilters ? findFilterById(currencyFilters.filterList, 4) : undefined;
+    const currencyData = findFilterByType(filterData, 'CURRENCY');
+    const currencyFilterList = currencyData?.filterList || [];
+
+    return {
+      locationFilterList: locationList,
+      regionToDetailedRegions: buildRegionToDetailedRegions(locationList),
+      allDetailedRegions: buildAllDetailedRegions(locationList),
+      serviceList: buildServiceList(serviceFilterList),
+      currencyList: buildCurrencyList(currencyFilterList),
+      allCurrencyCodes: buildAllCurrencyCodes(currencyFilterList),
+      krwToForeignCode: findKrwToForeignCode(serviceFilterList),
+    };
+  }, [filterData]);
 
   // Normalize filters when modal opens or initialFilters change
   useEffect(() => {
     if (isOpen) {
       const visibleRegions = getVisibleDetailedRegions(
         initialFilters.regions,
-        detailedRegionList
+        allDetailedRegions,
+        regionToDetailedRegions
       );
       const visibleCodes = visibleRegions.map((r) => r.code);
-      const normalizedFilters = normalizeFiltersWithAll(initialFilters, visibleCodes);
+      const normalizedFilters = normalizeFiltersWithAll(initialFilters, visibleCodes, allCurrencyCodes);
       setSelectedFilters(normalizedFilters);
     }
-  }, [isOpen, initialFilters, detailedRegionList]);
+  }, [isOpen, initialFilters, allDetailedRegions, regionToDetailedRegions, allCurrencyCodes]);
 
   // Handle dialog open state change
   const handleOpenChange = (open: boolean) => {
@@ -88,7 +111,15 @@ export default function LocationFilterModal({
   // Toggle filter handler
   const toggleFilter = (category: keyof SelectedFilters, code: string) => {
     setSelectedFilters((prev) =>
-      toggleFilterSelection(prev, category, code, detailedRegionList)
+      toggleFilterSelection(
+        prev,
+        category,
+        code,
+        allDetailedRegions,
+        regionToDetailedRegions,
+        allCurrencyCodes,
+        krwToForeignCode
+      )
     );
   };
 
@@ -98,14 +129,30 @@ export default function LocationFilterModal({
   };
 
   // Computed values
-  const isKrwToForeignSelected = selectedFilters.services.includes('krw_to_foreign');
+  const isKrwToForeignSelected = krwToForeignCode
+    ? selectedFilters.services.includes(krwToForeignCode)
+    : false;
   const visibleDetailedRegions = getVisibleDetailedRegions(
     selectedFilters.regions,
-    detailedRegionList
+    allDetailedRegions,
+    regionToDetailedRegions
   );
 
   const handleApply = () => {
-    onApply(selectedFilters);
+    // 지역은 선택했지만 상세 지역을 선택하지 않은 경우, 해당 지역의 모든 상세 지역을 자동 선택
+    let filtersToApply = selectedFilters;
+    if (selectedFilters.regions.length > 0 && selectedFilters.detailedRegions.length === 0) {
+      const allVisibleRegions = getVisibleDetailedRegions(
+        selectedFilters.regions,
+        allDetailedRegions,
+        regionToDetailedRegions
+      );
+      filtersToApply = {
+        ...selectedFilters,
+        detailedRegions: allVisibleRegions.map((item) => item.code),
+      };
+    }
+    onApply(filtersToApply);
     onClose();
   };
 
@@ -134,22 +181,28 @@ export default function LocationFilterModal({
 
         {/* Filter Content */}
         <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-4 pb-8 pt-4">
+          {filterLoading ? (
+            <div className="flex flex-1 items-center justify-center">
+              <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-[#FFD300]" />
+            </div>
+          ) : (
+          <>
           {/* Region */}
-          {regionFilter && (
+          {locationFilterList.length > 0 && (
             <FilterSection title={t('region')}>
-              {regionFilter.filterDetailList.map((item) => (
+              {locationFilterList.map((item) => (
                 <FilterButton
-                  key={item.code}
+                  key={item.id}
                   label={item.name}
-                  isSelected={isSelected('regions', item.code)}
-                  onClick={() => toggleFilter('regions', item.code)}
+                  isSelected={isSelected('regions', String(item.id))}
+                  onClick={() => toggleFilter('regions', String(item.id))}
                 />
               ))}
             </FilterSection>
           )}
 
           {/* Detailed Region */}
-          {detailedRegionFilter && visibleDetailedRegions.length > 0 && (
+          {visibleDetailedRegions.length > 0 && (
             <FilterSection title={t('detailedRegion')}>
               {visibleDetailedRegions.map((item) => (
                 <FilterButton
@@ -163,9 +216,9 @@ export default function LocationFilterModal({
           )}
 
           {/* Services Provided */}
-          {servicesFilter && (
+          {serviceList.length > 0 && (
             <FilterSection title={t('servicesProvided')}>
-              {servicesFilter.filterDetailList.map((item) => (
+              {serviceList.map((item) => (
                 <FilterButton
                   key={item.code}
                   label={item.name}
@@ -177,9 +230,9 @@ export default function LocationFilterModal({
           )}
 
           {/* Currency Selection */}
-          {currencyFilter && isKrwToForeignSelected && (
+          {currencyList.length > 0 && isKrwToForeignSelected && (
             <FilterSection title={t('currencySelection')}>
-              {currencyFilter.filterDetailList.map((item) => (
+              {currencyList.map((item) => (
                 <CurrencyFilterButton
                   key={item.code}
                   code={item.code}
@@ -203,6 +256,8 @@ export default function LocationFilterModal({
               />
             ))}
           </FilterSection>
+          </>
+          )}
         </div>
 
         {/* Apply Button */}

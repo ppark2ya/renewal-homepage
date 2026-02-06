@@ -2,27 +2,10 @@
  * Location 페이지 관련 타입 정의
  */
 
-// 서비스 타입
-export type ServiceType =
-  | 'foreignToKrw'
-  | 'krwToForeign'
-  | 'taxRefund'
-  | 'ezlCardTopup';
+import type { GetKioskListQuery, GetKioskFilterQuery } from '@/graphql/generated/graphql';
 
-// 장소 타입 (아이콘 구분용)
-export type PlaceType = 'hotel' | 'hospital' | 'shopping' | 'outdoor';
-
-// 위치 정보
-export interface LocationItem {
-  id: number;
-  name: string;
-  placeType: PlaceType;
-  operatingHours: string;
-  services: ServiceType[];
-  latitude: number;
-  longitude: number;
-  image?: string;
-}
+// KioskInfo 타입 (getKioskList 응답의 list item)
+export type LocationItem = GetKioskListQuery['getKioskList']['list'][number];
 
 // 핫스팟 버튼
 export interface HotspotButton {
@@ -33,35 +16,14 @@ export interface HotspotButton {
   longitude: number;
 }
 
-// 서비스 배지 정보
-export interface ServiceBadgeInfo {
-  type: ServiceType;
-  label: string;
-  bgColor: string;
-  textColor: string;
-}
-
-// 필터 타입
-export type FilterType = 'LOCATION' | 'SERVICE' | 'CURRENCY';
-
-// 필터 상세 항목
-export interface FilterDetailItem {
-  code: string;
-  name: string;
-}
+// 필터 응답 데이터 (GraphQL 생성 타입에서 파생)
+export type FilterResponseItem = GetKioskFilterQuery['getKioskFilter'][number];
 
 // 필터 항목
-export interface FilterItem {
-  id: number;
-  name: string;
-  filterDetailList: FilterDetailItem[];
-}
+export type FilterItem = FilterResponseItem['filterList'][number];
 
-// 필터 응답 데이터
-export interface FilterResponseItem {
-  type: FilterType;
-  filterList: FilterItem[];
-}
+// 필터 상세 항목
+export type FilterDetailItem = FilterItem['filterDetailList'][number];
 
 // 선택된 필터 상태
 export interface SelectedFilters {

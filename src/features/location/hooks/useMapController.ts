@@ -39,7 +39,7 @@ export function useMapController({
       }
 
       const visibleCount = locations.filter((location) =>
-        bounds.contains({ lat: location.latitude, lng: location.longitude })
+        bounds.contains({ lat: parseFloat(location.lat), lng: parseFloat(location.lon) })
       ).length;
 
       onVisibleLocationsChange(visibleCount);
@@ -61,7 +61,7 @@ export function useMapController({
 
     const location = locations.find((l) => l.id === selectedLocation);
     if (location) {
-      map.panTo({ lat: location.latitude, lng: location.longitude });
+      map.panTo({ lat: parseFloat(location.lat), lng: parseFloat(location.lon) });
     }
   }, [map, selectedLocation, locations]);
 

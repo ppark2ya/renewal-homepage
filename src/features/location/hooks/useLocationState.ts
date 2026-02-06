@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { LocationItem, SelectedFilters } from '../types';
+import type { SelectedFilters } from '../types';
 import { HOTSPOT_BUTTONS } from '../constants';
 import { useFilterQueryParams } from './useFilterQueryParams';
 
@@ -11,7 +11,6 @@ interface MapCenter {
 }
 
 interface UseLocationStateProps {
-  initialLocations: LocationItem[];
   defaultCenter?: MapCenter;
   initialFilters?: SelectedFilters;
 }
@@ -21,10 +20,10 @@ interface UseLocationStateReturn {
   selectedLocation: number | null;
   selectedHotspot: string | null;
   mapCenter: MapCenter;
-  visibleCount: number;
   isListExpanded: boolean;
   isFilterModalOpen: boolean;
   appliedFilters: SelectedFilters;
+  searchKeyword: string;
 
   // Selection handlers
   selectLocation: (id: number) => void;
@@ -33,31 +32,22 @@ interface UseLocationStateReturn {
   closeMarker: () => void;
 
   // UI handlers
-  setVisibleCount: (count: number) => void;
   toggleListExpanded: () => void;
   openFilterModal: () => void;
   closeFilterModal: () => void;
   applyFilters: (filters: SelectedFilters) => void;
+  setSearchKeyword: (keyword: string) => void;
 
   // Computed values
-  selectedLocationData: LocationItem | null;
+  selectedLocationData: null;
 }
-
-const DEFAULT_FILTERS: SelectedFilters = {
-  regions: [],
-  detailedRegions: [],
-  services: [],
-  currencies: [],
-  operatingHours: [],
-};
 
 const DEFAULT_CENTER: MapCenter = { lat: 37.5665, lng: 126.978 };
 
-export function useLocationState({
-  initialLocations,
-  defaultCenter = DEFAULT_CENTER,
-  initialFilters,
-}: UseLocationStateProps): UseLocationStateReturn {
+export function useLocationState(
+  props?: UseLocationStateProps
+): UseLocationStateReturn {
+  const { defaultCenter = DEFAULT_CENTER, initialFilters } = props ?? {};
   const { currentFilters, updateFiltersInUrl } = useFilterQueryParams();
 
   // Selection state
@@ -66,9 +56,9 @@ export function useLocationState({
   const [mapCenter, setMapCenter] = useState<MapCenter>(defaultCenter);
 
   // UI state
-  const [visibleCount, setVisibleCount] = useState<number>(initialLocations.length);
   const [isListExpanded, setIsListExpanded] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   // Filter state - use URL params or initial filters
   const [appliedFilters, setAppliedFilters] = useState<SelectedFilters>(
@@ -106,10 +96,6 @@ export function useLocationState({
   // Selection handlers
   const selectLocation = (id: number) => {
     setSelectedLocation(id);
-    const location = initialLocations.find((l) => l.id === id);
-    if (location) {
-      setMapCenter({ lat: location.latitude, lng: location.longitude });
-    }
   };
 
   const selectHotspot = (hotspotId: string) => {
@@ -153,20 +139,15 @@ export function useLocationState({
     updateFiltersInUrl(filters);
   };
 
-  // Computed values
-  const selectedLocationData = selectedLocation
-    ? initialLocations.find((l) => l.id === selectedLocation) ?? null
-    : null;
-
   return {
     // Selection state
     selectedLocation,
     selectedHotspot,
     mapCenter,
-    visibleCount,
     isListExpanded,
     isFilterModalOpen,
     appliedFilters,
+    searchKeyword,
 
     // Selection handlers
     selectLocation,
@@ -175,13 +156,13 @@ export function useLocationState({
     closeMarker,
 
     // UI handlers
-    setVisibleCount,
     toggleListExpanded,
     openFilterModal,
     closeFilterModal,
     applyFilters,
+    setSearchKeyword,
 
     // Computed values
-    selectedLocationData,
+    selectedLocationData: null,
   };
 }

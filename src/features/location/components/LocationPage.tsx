@@ -6,35 +6,56 @@ import MobileSearchBox from './MobileSearchBox';
 import MobileBottomSheet from './MobileBottomSheet';
 import LocationFilterModal from './LocationFilterModal';
 import { useLocationState } from '../hooks/useLocationState';
-import { SAMPLE_LOCATIONS } from '../constants';
-import type { LocationItem } from '../types';
+import { useGetKioskListQuery, useGetKioskFilterQuery } from '@/graphql/generated/graphql';
+import type { SelectedFilters } from '../types';
 
-interface LocationPageProps {
-  initialLocations?: LocationItem[];
+/**
+ * appliedFilters의 모든 값을 하나의 string[]로 합쳐서 filterList로 전달
+ */
+function buildFilterList(filters: SelectedFilters): string[] {
+  return [
+    ...filters.regions,
+    ...filters.detailedRegions,
+    ...filters.services,
+    ...filters.currencies,
+    ...filters.operatingHours,
+  ].filter((v) => v && v !== 'all');
 }
 
-export default function LocationPage({
-  initialLocations = SAMPLE_LOCATIONS,
-}: LocationPageProps) {
+export default function LocationPage() {
   const {
     selectedLocation,
     selectedHotspot,
     mapCenter,
-    visibleCount,
     isListExpanded,
     isFilterModalOpen,
     appliedFilters,
+    searchKeyword,
     selectLocation,
     selectHotspot,
     selectMarker,
     closeMarker,
-    setVisibleCount,
     toggleListExpanded,
     openFilterModal,
     closeFilterModal,
     applyFilters,
-    selectedLocationData,
-  } = useLocationState({ initialLocations });
+  } = useLocationState();
+
+  const filterList = buildFilterList(appliedFilters);
+
+  const { data: filterQueryData, loading: filterLoading } = useGetKioskFilterQuery();
+  const filterData = filterQueryData?.getKioskFilter ?? [];
+
+  const { data } = useGetKioskListQuery({
+    variables: {
+      page: 1,
+      size: 100000,
+      ...(filterList.length > 0 ? { filterList } : {}),
+      ...(searchKeyword ? { keyword: searchKeyword } : {}),
+    },
+  });
+
+  const locations = data?.getKioskList.list ?? [];
 
   return (
     <div className="relative h-[calc(100vh-60px)] w-full">
@@ -43,12 +64,11 @@ export default function LocationPage({
         {/* Sidebar - Left */}
         <div className="w-[500px] h-full overflow-hidden shrink-0 z-10 shadow-lg">
           <LocationSidebar
-            locations={initialLocations}
+            locations={locations}
             selectedLocation={selectedLocation}
             onLocationSelect={selectLocation}
             onHotspotSelect={selectHotspot}
             onFilterClick={openFilterModal}
-            visibleCount={visibleCount}
             className="h-full"
           />
         </div>
@@ -56,11 +76,10 @@ export default function LocationPage({
         {/* Map - Right */}
         <div className="flex-1 h-full">
           <MapView
-            locations={initialLocations}
+            locations={locations}
             selectedLocation={selectedLocation}
             onMarkerClick={selectMarker}
             onMarkerClose={closeMarker}
-            onVisibleLocationsChange={setVisibleCount}
             center={mapCenter}
             zoom={12}
             className="w-full h-full"
@@ -82,7 +101,7 @@ export default function LocationPage({
         {/* Map - Main area */}
         <div className="flex-1 relative">
           <MapView
-            locations={initialLocations}
+            locations={locations}
             selectedLocation={selectedLocation}
             onMarkerClick={selectMarker}
             onMarkerClose={closeMarker}
@@ -94,8 +113,7 @@ export default function LocationPage({
 
         {/* Bottom Sheet with List */}
         <MobileBottomSheet
-          locations={initialLocations}
-          totalCount={visibleCount}
+          locations={locations}
           isExpanded={isListExpanded}
           onToggle={toggleListExpanded}
           onLocationSelect={selectLocation}
@@ -109,6 +127,8 @@ export default function LocationPage({
         onClose={closeFilterModal}
         onApply={applyFilters}
         initialFilters={appliedFilters}
+        filterData={filterData}
+        filterLoading={filterLoading}
       />
     </div>
   );

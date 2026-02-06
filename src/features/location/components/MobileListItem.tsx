@@ -1,9 +1,8 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { PLACE_TYPE_ICON_COMPONENTS } from './HotspotIcons';
 import ServiceBadge from './ServiceBadge';
-import type { LocationItem, PlaceType } from '../types';
+import type { LocationItem } from '../types';
 
 interface MobileListItemProps {
   location: LocationItem;
@@ -18,7 +17,11 @@ export default function MobileListItem({
   onClick,
   className,
 }: MobileListItemProps) {
-  const PlaceIconComponent = PLACE_TYPE_ICON_COMPONENTS[location.placeType as PlaceType];
+  // 운영시간 조합
+  const operatingHours =
+    location.openTime && location.closeTime
+      ? `${location.operationDay} ${location.openTime} ~ ${location.closeTime}`
+      : location.operationDay;
 
   return (
     <div
@@ -30,27 +33,20 @@ export default function MobileListItem({
       )}
       onClick={onClick}
     >
-      {/* Place Icon */}
-      {PlaceIconComponent && (
-        <div className="w-6 h-6 mb-3">
-          <PlaceIconComponent className="w-full h-full" />
-        </div>
-      )}
-
       {/* Title */}
       <h3 className="text-[18px] font-medium leading-[26px] text-[#111] mb-2">
-        {location.name}
+        {location.terminalName}
       </h3>
 
       {/* Operating Hours */}
       <p className="text-[14px] leading-[20px] text-[#717895] mb-4">
-        {location.operatingHours}
+        {operatingHours}
       </p>
 
       {/* Service Badges */}
       <div className="flex flex-wrap gap-2">
-        {location.services.map((service) => (
-          <ServiceBadge key={service} type={service} className="text-[13px] px-3 py-1" />
+        {location.serviceList.map((service) => (
+          <ServiceBadge key={service.code} service={service} className="text-[13px] px-3 py-1" />
         ))}
       </div>
     </div>

@@ -33,5 +33,23 @@
       "operatingHours": "营业时间",
       "apply": "应用"
     }
+  },
+  "KioskDetailPage": {
+    "address": "地址",
+    "locationDetails": "位置详情",
+    "operatingHours": "营业时间",
+    "availableServices": "可用服务",
+    "krwToForeign": "KRW → 外币 (余额)",
+    "krwToForeignDesc": "可用货币和面额可能因自助终端位置和服务状态而异。",
+    "foreignToKrw": "外币 → KRW (可兑换货币)",
+    "foreignToKrwDesc": "可用货币和面额可能因自助终端位置和服务状态而异。",
+    "available": "可用",
+    "unavailable": "不可用",
+    "locationList": "Location List",
+    "copyAddress": "复制地址",
+    "addressCopied": "地址已复制。",
+    "copyFailed": "复制失败。",
+    "share": "分享",
+    "linkCopied": "链接已复制。"
   }
 }

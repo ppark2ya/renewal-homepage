@@ -79,7 +79,23 @@
       "Bash(pnpm add:*)",
       "Bash(./node_modules/.bin/graphql-codegen:*)",
       "Bash(pnpm install:*)",
-      "Bash(node ./node_modules/@graphql-codegen/cli/cjs/bin.js:*)"
+      "Bash(node ./node_modules/@graphql-codegen/cli/cjs/bin.js:*)",
+      "Bash(PATH=\"/usr/bin:/bin:/usr/sbin:/sbin\" ls:*)",
+      "Bash(PATH=\"$HOME/.nvm/versions/node/v20.18.3/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin\" pnpm lint:*)",
+      "Bash(PATH=\"$HOME/.nvm/versions/node/v20.18.3/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin\" pnpm build:*)",
+      "Bash(/usr/bin/tail:*)",
+      "Bash(/Users/bmkim/.nvm/versions/node/v20.18.3/bin/node /Users/bmkim/Documents/kiosk/renewal-homepage/node_modules/next/dist/bin/next build:*)",
+      "Bash(/bin/rm:*)",
+      "Bash(PATH=\"$HOME/.nvm/versions/node/v20.18.3/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin\" rm -rf /Users/bmkim/Documents/kiosk/renewal-homepage/.next)",
+      "Bash(PATH=\"/Users/bmkim/.nvm/versions/node/v20.18.3/bin:$PATH\" /Users/bmkim/.nvm/versions/node/v20.18.3/bin/node /Users/bmkim/Documents/kiosk/renewal-homepage/node_modules/.bin/tsc:*)",
+      "Bash(PATH=\"/Users/bmkim/.nvm/versions/node/v20.18.3/bin:$PATH\" /Users/bmkim/.nvm/versions/node/v20.18.3/bin/node /Users/bmkim/Documents/kiosk/renewal-homepage/node_modules/typescript/bin/tsc:*)",
+      "Bash(PATH=\"/Users/bmkim/.nvm/versions/node/v20.18.3/bin:$PATH\" /Users/bmkim/.nvm/versions/node/v20.18.3/bin/node /Users/bmkim/Documents/kiosk/renewal-homepage/node_modules/eslint/bin/eslint.js:*)",
+      "Bash(PATH=\"/Users/bmkim/.nvm/versions/node/v20.18.3/bin:/opt/homebrew/bin:$PATH\" /Users/bmkim/.nvm/versions/node/v20.18.3/bin/node:*)",
+      "Bash(PATH=\"/Users/bmkim/.nvm/versions/node/v20.18.3/bin:$PATH\" /Users/bmkim/.nvm/versions/node/v20.18.3/bin/node:*)",
+      "Bash(export PATH:*)",
+      "Bash(export NVM_DIR=\"\")",
+      "Bash(NVM_DIR=\"\" PATH=\"/Users/bmkim/.nvm/versions/node/v20.18.3/bin:$PATH\" npx tsc:*)",
+      "Bash(export PATH=\"/Users/bmkim/.nvm/versions/node/v20.18.3/bin:$PATH\")"
     ]
   }
 }
