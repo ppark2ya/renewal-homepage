@@ -1,41 +1,16 @@
+---
 kind: pipeline
 type: docker
-name: renewal-homepage
+name: renewal-homepage-dev
 
 trigger:
   branch:
-    - main
-    - develop
+    - dev-*
+    - stg
   event:
     - push
-    - pull_request
 
 steps:
-  - name: install
-    image: node:20-alpine
-    commands:
-      - corepack enable && corepack prepare pnpm@latest --activate
-      - pnpm install --frozen-lockfile
-
-  - name: lint
-    image: node:20-alpine
-    commands:
-      - corepack enable && corepack prepare pnpm@latest --activate
-      - pnpm lint
-    depends_on:
-      - install
-
-  - name: build
-    image: node:20-alpine
-    environment:
-      NEXT_PUBLIC_GRAPHQL_ENDPOINT:
-        from_secret: NEXT_PUBLIC_GRAPHQL_ENDPOINT
-    commands:
-      - corepack enable && corepack prepare pnpm@latest --activate
-      - pnpm build
-    depends_on:
-      - lint
-
   - name: docker-build-push
     image: plugins/docker
     settings:
@@ -48,40 +23,64 @@ steps:
       password:
         from_secret: DOCKER_PASSWORD
       tags:
+        - ${DRONE_BRANCH}
         - ${DRONE_COMMIT_SHA:0:8}
-        - latest
       build_args_from_env:
         - NEXT_PUBLIC_GRAPHQL_ENDPOINT
+        - HTTP_PROXY
+        - HTTPS_PROXY
+        - UID
+        - GID
     environment:
       NEXT_PUBLIC_GRAPHQL_ENDPOINT:
         from_secret: NEXT_PUBLIC_GRAPHQL_ENDPOINT
-    depends_on:
-      - build
-    when:
-      branch:
-        - main
-        - develop
-      event:
-        - push
+      HTTP_PROXY:
+        from_secret: HTTP_PROXY
+      HTTPS_PROXY:
+        from_secret: HTTPS_PROXY
+      UID:
+        from_secret: UID
+      GID:
+        from_secret: GID
 
-  - name: deploy
-    image: appleboy/drone-ssh
+---
+kind: pipeline
+type: docker
+name: renewal-homepage-prod
+
+trigger:
+  event:
+    - tag
+
+steps:
+  - name: docker-build-push
+    image: plugins/docker
     settings:
-      host:
-        from_secret: DEPLOY_HOST
+      registry:
+        from_secret: DOCKER_REGISTRY
+      repo:
+        from_secret: DOCKER_REPO
       username:
-        from_secret: DEPLOY_USER
-      key:
-        from_secret: DEPLOY_SSH_KEY
-      port: 22
-      script:
-        - cd /opt/renewal-homepage
-        - export IMAGE_TAG=${DRONE_COMMIT_SHA:0:8}
-        - docker stack deploy -c docker-compose.yml renewal-homepage --with-registry-auth
-    depends_on:
-      - docker-build-push
-    when:
-      branch:
-        - main
-      event:
-        - push
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+      tags:
+        - ${DRONE_TAG}
+        - latest
+      build_args_from_env:
+        - NEXT_PUBLIC_GRAPHQL_ENDPOINT
+        - HTTP_PROXY
+        - HTTPS_PROXY
+        - UID
+        - GID
+    environment:
+      NEXT_PUBLIC_GRAPHQL_ENDPOINT:
+        from_secret: NEXT_PUBLIC_GRAPHQL_ENDPOINT
+      HTTP_PROXY:
+        from_secret: HTTP_PROXY
+      HTTPS_PROXY:
+        from_secret: HTTPS_PROXY
+      UID:
+        from_secret: UID
+      GID:
+        from_secret: GID
