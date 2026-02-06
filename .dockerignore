@@ -1,0 +1,16 @@
+node_modules
+.next
+.git
+.gitignore
+.idea
+.vscode
+.env*
+*.md
+*.log
+dist
+build
+coverage
+tmp
+temp
+.DS_Store
+Thumbs.db
