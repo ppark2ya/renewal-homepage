@@ -1,0 +1,36 @@
+query GetKioskList($page: Int!, $size: Int!, $filterList: [String!], $keyword: String) {
+  getKioskList(page: $page, size: $size, filterList: $filterList, keyword: $keyword) {
+    list {
+      id
+      terminalId
+      terminalName
+      terminalNo
+      address
+      image01
+      image02
+      lat
+      lon
+      memo
+      openTime
+      closeTime
+      operationDay
+      status
+      locale
+      postingYn
+      service
+      serviceList {
+        code
+        name
+      }
+    }
+    pageNumber
+    pageSize
+    totalElements
+    totalPages
+    hasNext
+    hasPrevious
+    isFirst
+    isLast
+    isEmpty
+  }
+}

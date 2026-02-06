@@ -1,5 +1,5 @@
-import type { ExchangeRateInfo } from '@/generated/graphql';
 import type { AnimationState } from '@/types';
+import {ExchangeRateInfo} from "@/graphql/generated/graphql";
 
 export type ExchangeDirection = 'buy' | 'sell';
 

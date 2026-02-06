@@ -15,7 +15,7 @@ import type {
   FamilySite,
   CategoryAction,
 } from '@/types';
-import {CurrencyCode} from "@/generated/graphql";
+import {CurrencyCode} from "@/graphql/generated/graphql";
 
 // 카테고리별 액션 정의
 export const CATEGORY_ACTIONS: Record<string, CategoryAction> = {
@@ -168,21 +168,6 @@ export const REVIEWS: Review[] = [
     text: '不用排队、不用和工作人员沟通，\n自己就能轻松兑换。\n汇率也透明，让人用得很放心。',
   },
 ];
-
-// 위치 필터 데이터
-export const LOCATION_FILTERS = [
-  'All',
-  'Myeongdong',
-  'Gyeongbokgung / Gwanghwamun',
-  'Insadong',
-  'Seongsu',
-  'Hongdae / Sinchon',
-  'Apgujeong / Sinsa',
-  'Busan',
-  'Jeju',
-] as const;
-
-export type LocationFilter = (typeof LOCATION_FILTERS)[number];
 
 // 키오스크 데이터
 export const KIOSKS: Kiosk[] = [

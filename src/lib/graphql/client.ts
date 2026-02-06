@@ -1,4 +1,5 @@
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
+import { convertLang } from '@/lib/i18n';
 
 const endpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || '';
 
@@ -7,55 +8,52 @@ if (!endpoint && process.env.NODE_ENV === 'development') {
 }
 
 /**
- * Apollo Client HTTP Link
- */
-const httpLink = new HttpLink({
-  uri: endpoint,
-});
-
-/**
- * Apollo Client 인스턴스 (Client Components용)
+ * locale 기반 Apollo Client 생성 (Client Components용)
  *
- * @example
- * ```tsx
- * import { apolloClient } from '@/lib/graphql/client';
- * import { ApolloProvider } from '@apollo/client';
- *
- * <ApolloProvider client={apolloClient}>
- *   <App />
- * </ApolloProvider>
- * ```
+ * @param locale - 현재 언어 코드 (예: 'ko', 'en', 'jp', 'cn')
+ * @returns lang 헤더가 포함된 Apollo Client
  */
-export const apolloClient = new ApolloClient({
-  link: httpLink,
-  cache: new InMemoryCache(),
-  defaultOptions: {
-    watchQuery: {
-      fetchPolicy: 'cache-and-network',
-    },
-    query: {
-      fetchPolicy: 'network-only',
-      errorPolicy: 'all',
-    },
-    mutate: {
-      errorPolicy: 'all',
-    },
-  },
-});
-
-/**
- * 인증된 Apollo Client 생성 (Server Components용)
- *
- * @param token - Bearer 토큰
- * @returns 인증 헤더가 포함된 Apollo Client
- */
-export function createAuthenticatedClient(token: string) {
+export function createApolloClient(locale: string) {
   return new ApolloClient({
     link: new HttpLink({
       uri: endpoint,
       headers: {
-        Authorization: `Bearer ${token}`,
+        'accept-language': convertLang(locale),
       },
+    }),
+    cache: new InMemoryCache(),
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: 'cache-and-network',
+      },
+      query: {
+        fetchPolicy: 'network-only',
+        errorPolicy: 'all',
+      },
+      mutate: {
+        errorPolicy: 'all',
+      },
+    },
+  });
+}
+
+/**
+ * Server Component용 Apollo Client 생성
+ *
+ * @param lang - 언어 코드
+ * @param token - Bearer 토큰 (선택)
+ * @returns lang 헤더가 포함된 Apollo Client
+ */
+export function createServerClient(lang: string, token?: string) {
+  const headers: Record<string, string> = { 'accept-language': convertLang(lang) };
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  return new ApolloClient({
+    link: new HttpLink({
+      uri: endpoint,
+      headers,
     }),
     cache: new InMemoryCache(),
     defaultOptions: {

@@ -5,11 +5,26 @@ import Link from 'next/link';
 import ImageWithFallback from '@/components/ui/ImageWithFallback';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
-import { Menu, Globe } from 'lucide-react';
+import { Menu, Globe, Check } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '@/components/ui/dropdown-menu';
 import { useScrollPosition } from '@/hooks';
 import { NAV_ITEMS, RIGHT_NAV_ITEMS } from '@/constants/data';
 import { R2_BASE_URL } from '@/constants';
+import { useRouter, usePathname, locales, type Locale } from '@/i18n/routing';
+import { useLocale } from 'next-intl';
 import type { NavItem } from '@/types';
+
+const LOCALE_LABELS: Record<Locale, string> = {
+  en: 'English',
+  ko: '한국어',
+  jp: '日本語',
+  cn: '简体中文',
+};
 
 interface DesktopNavProps {
   navItems: NavItem[];
@@ -64,9 +79,11 @@ interface MobileNavProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   navItems: NavItem[];
+  currentLocale: string;
+  onLocaleChange: (locale: Locale) => void;
 }
 
-function MobileNav({ isOpen, onOpenChange, navItems }: MobileNavProps) {
+function MobileNav({ isOpen, onOpenChange, navItems, currentLocale, onLocaleChange }: MobileNavProps) {
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetTrigger asChild>
@@ -102,6 +119,25 @@ function MobileNav({ isOpen, onOpenChange, navItems }: MobileNavProps) {
               )}
             </div>
           ))}
+          {/* Language Selector */}
+          <div className="flex items-center gap-3">
+            {locales.map((locale) => (
+              <button
+                key={locale}
+                onClick={() => {
+                  onLocaleChange(locale);
+                  onOpenChange(false);
+                }}
+                className={`text-[14px] transition-colors ${
+                  currentLocale === locale
+                    ? 'font-bold text-white'
+                    : 'text-[#BBC4D3] hover:text-white'
+                }`}
+              >
+                {LOCALE_LABELS[locale]}
+              </button>
+            ))}
+          </div>
         </nav>
       </SheetContent>
     </Sheet>
@@ -119,6 +155,18 @@ export default function Header() {
   const [isNavHovered, setIsNavHovered] = useState(false);
   const [activeNavItem, setActiveNavItem] = useState<string | null>(null);
   const { isScrolled } = useScrollPosition();
+  const router = useRouter();
+  const pathname = usePathname();
+  const currentLocale = useLocale();
+
+  const handleLocaleChange = (locale: Locale) => {
+    const scrollY = window.scrollY;
+    router.replace(pathname, { locale, scroll: false });
+    // 라우팅 후 스크롤 위치 복원
+    requestAnimationFrame(() => {
+      window.scrollTo(0, scrollY);
+    });
+  };
 
   const handleMouseLeave = () => {
     setIsNavHovered(false);
@@ -171,13 +219,34 @@ export default function Header() {
                 {item.label}
               </Link>
             ))}
-            <Button variant="ghost" size="icon" className="size-6" aria-label="언어 선택">
-              <Globe className="h-5 w-5 text-[#111]" />
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="size-6" aria-label="언어 선택">
+                  <Globe className="h-5 w-5 text-[#111]" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {locales.map((locale) => (
+                  <DropdownMenuItem
+                    key={locale}
+                    onClick={() => handleLocaleChange(locale)}
+                  >
+                    {LOCALE_LABELS[locale]}
+                    {currentLocale === locale && <Check className="h-4 w-4" />}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           {/* Mobile Navigation */}
-          <MobileNav isOpen={isMenuOpen} onOpenChange={setIsMenuOpen} navItems={NAV_ITEMS} />
+          <MobileNav
+            isOpen={isMenuOpen}
+            onOpenChange={setIsMenuOpen}
+            navItems={NAV_ITEMS}
+            currentLocale={currentLocale}
+            onLocaleChange={handleLocaleChange}
+          />
         </div>
 
       </div>

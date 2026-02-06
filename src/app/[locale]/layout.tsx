@@ -35,7 +35,7 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body className="antialiased">
-        <ApolloWrapper>
+        <ApolloWrapper locale={locale}>
           <NextIntlClientProvider messages={messages}>
             {children}
             <Toaster />

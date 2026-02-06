@@ -57,7 +57,23 @@
       "Bash(. \"$NVM_DIR/nvm.sh\")",
       "Bash(npx:*)",
       "Bash(/opt/homebrew/bin/pnpm lint:*)",
-      "WebFetch(domain:www.apollographql.com)"
+      "WebFetch(domain:www.apollographql.com)",
+      "Bash(echo:*)",
+      "Bash(/bin/ls:*)",
+      "Bash(export PATH=\"/Users/bmkim/.nvm/versions/node/v24.13.0/bin:$PATH\")",
+      "Bash(/usr/bin/head:*)",
+      "Bash(/usr/bin/find:*)",
+      "Bash(PATH=\"/Users/bmkim/.nvm/versions/node/v24.13.0/bin:/Users/bmkim/.nvm/versions/node/v24.13.0/lib/node_modules/corepack/shims:$PATH\" pnpm codegen:*)",
+      "Bash(PATH=\"/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/bmkim/.nvm/versions/node/v24.13.0/bin:$PATH\")",
+      "Bash(corepack enable:*)",
+      "Bash(/usr/bin/tail -30)",
+      "Bash(PATH=\"/opt/homebrew/bin:/usr/local/bin:$PATH\")",
+      "Bash(/opt/homebrew/bin/node ./node_modules/.bin/tsc:*)",
+      "Bash(export PATH=\"/usr/local/bin:/usr/bin:/bin:/opt/homebrew/bin:$PATH\")",
+      "Bash(git -C /Users/bmkim/Documents/kiosk/renewal-homepage status)",
+      "Bash(git -C /Users/bmkim/Documents/kiosk/renewal-homepage diff)",
+      "Bash(git -C /Users/bmkim/Documents/kiosk/renewal-homepage diff --cached)",
+      "Bash(git -C /Users/bmkim/Documents/kiosk/renewal-homepage log --oneline -10)"
     ]
   }
 }

@@ -1,4 +1,4 @@
-import { CurrencyCode } from '@/generated/graphql';
+import { CurrencyCode } from '@/graphql/generated/graphql';
 
 /** Currency display order for KRW → Foreign Currency */
 export const BUY_CURRENCY_ORDER: CurrencyCode[] = [

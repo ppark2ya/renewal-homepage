@@ -3,6 +3,9 @@
     "title": "你好!",
     "welcome": "欢迎来到我们的主页。"
   },
+  "HotspotSection": {
+    "noResults": "没有搜索结果。"
+  },
   "LocationPage": {
     "title": "位置",
     "searchPlaceholder": "请输入搜索词。",

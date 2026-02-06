@@ -1,4 +1,4 @@
-import { CurrencyCode, type ExchangeRateInfo } from '@/generated/graphql';
+import { CurrencyCode, type ExchangeRateInfo } from '@/graphql/generated/graphql';
 import { PER_100_CURRENCIES } from '../constants';
 
 /**

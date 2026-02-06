@@ -5,7 +5,7 @@ import {
   GetForeignWonBestRatesDocument,
   type GetWonForeignBestRatesQuery,
   type GetForeignWonBestRatesQuery,
-} from '@/generated/graphql';
+} from '@/graphql/generated/graphql';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;

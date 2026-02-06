@@ -1,4 +1,4 @@
-import { CurrencyCode } from '@/generated/graphql';
+import { CurrencyCode } from '@/graphql/generated/graphql';
 
 /**
  * CurrencyCode를 국기 이미지 경로로 매핑

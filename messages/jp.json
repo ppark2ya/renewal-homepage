@@ -3,6 +3,9 @@
     "title": "こんにちは!",
     "welcome": "ホームページへようこそ。"
   },
+  "HotspotSection": {
+    "noResults": "検索結果がありません。"
+  },
   "LocationPage": {
     "title": "場所",
     "searchPlaceholder": "検索語を入力してください。",

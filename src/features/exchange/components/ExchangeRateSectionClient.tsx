@@ -11,7 +11,7 @@ import {
   useGetWonForeignBestRatesLazyQuery,
   useGetForeignWonBestRatesLazyQuery,
   type ExchangeRateInfo,
-} from '@/generated/graphql';
+} from '@/graphql/generated/graphql';
 import { sortCurrencies } from '../utils/currency';
 import { BUY_CURRENCY_ORDER, SELL_CURRENCY_ORDER } from '../constants';
 import { CurrencyCard } from './CurrencyCard';

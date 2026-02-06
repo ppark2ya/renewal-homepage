@@ -1,5 +1,6 @@
 import type { DocumentNode, TypedDocumentNode, OperationVariables } from '@apollo/client';
-import { apolloClient, createAuthenticatedClient } from './client';
+import { getLocale } from 'next-intl/server';
+import { createServerClient } from './client';
 
 /**
  * Server Component용 GraphQL 쿼리 실행
@@ -25,7 +26,8 @@ export async function fetchGraphQL<TData = unknown, TVariables extends Operation
     token?: string;
   }
 ) {
-  const client = options?.token ? createAuthenticatedClient(options.token) : apolloClient;
+  const locale = await getLocale();
+  const client = createServerClient(locale, options?.token);
 
   const result = await client.query({
     query: document,
@@ -53,7 +55,8 @@ export async function mutateGraphQL<TData = unknown, TVariables extends Operatio
     token?: string;
   }
 ) {
-  const client = options?.token ? createAuthenticatedClient(options.token) : apolloClient;
+  const locale = await getLocale();
+  const client = createServerClient(locale, options?.token);
 
   const result = await client.mutate({
     mutation: document,

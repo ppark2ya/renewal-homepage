@@ -1,7 +1,7 @@
 /**
  * 공통 타입 정의
  */
-import {CurrencyCode} from "@/generated/graphql";
+import {CurrencyCode} from "@/graphql/generated/graphql";
 
 // 통화 관련 타입
 export interface Currency {

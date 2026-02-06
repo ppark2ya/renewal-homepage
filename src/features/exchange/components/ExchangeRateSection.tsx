@@ -4,7 +4,7 @@ import {
   GetForeignWonBestRatesDocument,
   type GetWonForeignBestRatesQuery,
   type GetForeignWonBestRatesQuery,
-} from '@/generated/graphql';
+} from '@/graphql/generated/graphql';
 import { ExchangeRateSectionClient } from './ExchangeRateSectionClient';
 
 /**

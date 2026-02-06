@@ -36,7 +36,7 @@ src/
 ### GraphQL Workflow
 1. Write `.graphql` files in `src/graphql/queries/` or `mutations/`
 2. Run `pnpm codegen` to generate types
-3. Use generated hooks in Client Components: `import { useGetDataQuery } from '@/generated/graphql'`
+3. Use generated hooks in Client Components: `import { useGetDataQuery } from '@/graphql/generated/graphql'`
 4. Use `fetchGraphQL()` from `@/lib/graphql/fetcher` in Server Components
 
 ### Server vs Client Components
@@ -51,7 +51,7 @@ import { fetchGraphQL } from '@/lib/graphql/fetcher';
 const { data } = await fetchGraphQL(GetDataDocument);
 
 // Client Component
-import { useGetDataQuery } from '@/generated/graphql';
+import { useGetDataQuery } from '@/graphql/generated/graphql';
 const { data, loading } = useGetDataQuery();
 
 // Parallel fetching for independent requests
@@ -70,7 +70,7 @@ const [a, b] = await Promise.all([fetchGraphQL(A), fetchGraphQL(B)]);
 
 ## Key Constraints
 
-- Never modify files in `src/generated/` - run `pnpm codegen` instead
+- Never modify files in `src/graphql/generated/` - run `pnpm codegen` instead
 - Run `pnpm codegen` after modifying `.graphql` files
 - External images only from: `pub-b8c324bfc986460fbdb1c9667951568a.r2.dev`
 - Requires `NEXT_PUBLIC_GRAPHQL_ENDPOINT` environment variable

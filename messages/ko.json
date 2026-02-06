@@ -3,6 +3,9 @@
     "title": "안녕하세요!",
     "welcome": "저희 홈페이지에 오신 것을 환영합니다."
   },
+  "HotspotSection": {
+    "noResults": "검색 결과가 없습니다."
+  },
   "LocationPage": {
     "title": "위치",
     "searchPlaceholder": "검색어를 입력해 주세요.",

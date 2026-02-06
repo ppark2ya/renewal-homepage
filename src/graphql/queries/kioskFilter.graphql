@@ -1,0 +1,13 @@
+query GetKioskFilter {
+  getKioskFilter {
+    type
+    filterList {
+      id
+      name
+      filterDetailList {
+        code
+        name
+      }
+    }
+  }
+}

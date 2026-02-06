@@ -15,7 +15,7 @@ interface ReviewCardProps {
 
 function ReviewCard({ review, variant = 'default' }: ReviewCardProps) {
   const variantClasses: Record<ReviewCardVariant, string> = {
-    default: 'w-[413px] h-full p-[32px]',
+    default: 'w-full h-full p-[32px]',
     medium: 'w-full h-[410px] p-6 overflow-hidden',
     mobile: 'w-full h-full p-[32px] items-center text-center',
   };

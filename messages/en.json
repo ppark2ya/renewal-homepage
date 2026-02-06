@@ -3,6 +3,9 @@
     "title": "Hello!",
     "welcome": "Welcome to our homepage."
   },
+  "HotspotSection": {
+    "noResults": "No results found."
+  },
   "LocationPage": {
     "title": "Location",
     "searchPlaceholder": "Please Enter A Search Term.",
