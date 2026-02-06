@@ -1,0 +1,87 @@
+kind: pipeline
+type: docker
+name: renewal-homepage
+
+trigger:
+  branch:
+    - main
+    - develop
+  event:
+    - push
+    - pull_request
+
+steps:
+  - name: install
+    image: node:20-alpine
+    commands:
+      - corepack enable && corepack prepare pnpm@latest --activate
+      - pnpm install --frozen-lockfile
+
+  - name: lint
+    image: node:20-alpine
+    commands:
+      - corepack enable && corepack prepare pnpm@latest --activate
+      - pnpm lint
+    depends_on:
+      - install
+
+  - name: build
+    image: node:20-alpine
+    environment:
+      NEXT_PUBLIC_GRAPHQL_ENDPOINT:
+        from_secret: NEXT_PUBLIC_GRAPHQL_ENDPOINT
+    commands:
+      - corepack enable && corepack prepare pnpm@latest --activate
+      - pnpm build
+    depends_on:
+      - lint
+
+  - name: docker-build-push
+    image: plugins/docker
+    settings:
+      registry:
+        from_secret: DOCKER_REGISTRY
+      repo:
+        from_secret: DOCKER_REPO
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+      tags:
+        - ${DRONE_COMMIT_SHA:0:8}
+        - latest
+      build_args_from_env:
+        - NEXT_PUBLIC_GRAPHQL_ENDPOINT
+    environment:
+      NEXT_PUBLIC_GRAPHQL_ENDPOINT:
+        from_secret: NEXT_PUBLIC_GRAPHQL_ENDPOINT
+    depends_on:
+      - build
+    when:
+      branch:
+        - main
+        - develop
+      event:
+        - push
+
+  - name: deploy
+    image: appleboy/drone-ssh
+    settings:
+      host:
+        from_secret: DEPLOY_HOST
+      username:
+        from_secret: DEPLOY_USER
+      key:
+        from_secret: DEPLOY_SSH_KEY
+      port: 22
+      script:
+        - cd /opt/renewal-homepage
+        - export IMAGE_TAG=${DRONE_COMMIT_SHA:0:8}
+        - docker stack deploy -c docker-compose.yml renewal-homepage --with-registry-auth
+    depends_on:
+      - docker-build-push
+    when:
+      branch:
+        - main
+      event:
+        - push
