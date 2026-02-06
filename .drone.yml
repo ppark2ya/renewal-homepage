@@ -1,0 +1,86 @@
+---
+kind: pipeline
+type: docker
+name: renewal-homepage-dev
+
+trigger:
+  branch:
+    - dev-*
+    - stg
+  event:
+    - push
+
+steps:
+  - name: docker-build-push
+    image: plugins/docker
+    settings:
+      registry:
+        from_secret: DOCKER_REGISTRY
+      repo:
+        from_secret: DOCKER_REPO
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+      tags:
+        - ${DRONE_BRANCH}
+        - ${DRONE_COMMIT_SHA:0:8}
+      build_args_from_env:
+        - NEXT_PUBLIC_GRAPHQL_ENDPOINT
+        - HTTP_PROXY
+        - HTTPS_PROXY
+        - UID
+        - GID
+    environment:
+      NEXT_PUBLIC_GRAPHQL_ENDPOINT:
+        from_secret: NEXT_PUBLIC_GRAPHQL_ENDPOINT
+      HTTP_PROXY:
+        from_secret: HTTP_PROXY
+      HTTPS_PROXY:
+        from_secret: HTTPS_PROXY
+      UID:
+        from_secret: UID
+      GID:
+        from_secret: GID
+
+---
+kind: pipeline
+type: docker
+name: renewal-homepage-prod
+
+trigger:
+  event:
+    - tag
+
+steps:
+  - name: docker-build-push
+    image: plugins/docker
+    settings:
+      registry:
+        from_secret: DOCKER_REGISTRY
+      repo:
+        from_secret: DOCKER_REPO
+      username:
+        from_secret: DOCKER_USERNAME
+      password:
+        from_secret: DOCKER_PASSWORD
+      tags:
+        - ${DRONE_TAG}
+        - latest
+      build_args_from_env:
+        - NEXT_PUBLIC_GRAPHQL_ENDPOINT
+        - HTTP_PROXY
+        - HTTPS_PROXY
+        - UID
+        - GID
+    environment:
+      NEXT_PUBLIC_GRAPHQL_ENDPOINT:
+        from_secret: NEXT_PUBLIC_GRAPHQL_ENDPOINT
+      HTTP_PROXY:
+        from_secret: HTTP_PROXY
+      HTTPS_PROXY:
+        from_secret: HTTPS_PROXY
+      UID:
+        from_secret: UID
+      GID:
+        from_secret: GID
