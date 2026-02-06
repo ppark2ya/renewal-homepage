@@ -9,14 +9,10 @@ ENV HTTPS_PROXY=${HTTPS_PROXY}
 RUN corepack enable && corepack prepare pnpm@8.15.7 --activate
 WORKDIR /app
 
-# ---- Dependencies ----
-FROM base AS deps
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
-
 # ---- Build ----
 FROM base AS build
-COPY --from=deps /app/node_modules ./node_modules
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 COPY . .
 
 ARG NEXT_PUBLIC_GRAPHQL_ENDPOINT
