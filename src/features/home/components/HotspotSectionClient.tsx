@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import ImageWithFallback from '@/components/ui/ImageWithFallback';
 import { Button } from '@/components/ui/button';
 import { SectionTitle } from '@/components/ui/SectionTitle';
@@ -30,28 +31,31 @@ function KioskCard({ kiosk }: KioskCardProps) {
   // 주소에서 도시명 추출 (첫 번째 단어)
   const city = kiosk.address.split(' ')[0] || '';
 
+
   return (
-    <article className="flex w-[288px] flex-col items-center gap-3 md:w-[360px] md:gap-4 cursor-pointer">
-      {/* Image with rounded corners - ratio 360:230 */}
-      <div className="relative aspect-[360/230] w-full overflow-hidden rounded-[20px] bg-[#E5E5E5]">
-        <ImageWithFallback
-          src={kiosk.image01}
-          alt={kiosk.terminalName}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 288px, 360px"
-          fallbackType="icon"
-        />
-      </div>
-      {/* City tag */}
-      <span className="max-w-full truncate rounded-[8px] bg-[#F5F5F5] px-4 py-2 text-[14px] font-medium text-[#111] md:text-[16px]">
-        {city}
-      </span>
-      {/* Branch name */}
-      <h3 className="w-full truncate text-center text-[16px] font-medium text-[#111] md:text-[18px]">
-        {kiosk.terminalName}
-      </h3>
-    </article>
+    <Link href={`/kiosk/${kiosk.id}`}>
+      <article className="flex w-[288px] flex-col items-center gap-3 md:w-[360px] md:gap-4 cursor-pointer">
+        {/* Image with rounded corners - ratio 360:230 */}
+        <div className="relative aspect-[360/230] w-full overflow-hidden rounded-[20px] bg-[#E5E5E5]">
+          <ImageWithFallback
+            src={kiosk.image01}
+            alt={kiosk.terminalName}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 288px, 360px"
+            fallbackType="icon"
+          />
+        </div>
+        {/* City tag */}
+        <span className="max-w-full truncate rounded-[8px] bg-[#F5F5F5] px-4 py-2 text-[14px] font-medium text-[#111] md:text-[16px]">
+          {city}
+        </span>
+        {/* Branch name */}
+        <h3 className="w-full truncate text-center text-[16px] font-medium text-[#111] md:text-[18px]">
+          {kiosk.terminalName}
+        </h3>
+      </article>
+    </Link>
   );
 }
 

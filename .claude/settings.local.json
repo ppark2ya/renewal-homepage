@@ -73,7 +73,13 @@
       "Bash(git -C /Users/bmkim/Documents/kiosk/renewal-homepage status)",
       "Bash(git -C /Users/bmkim/Documents/kiosk/renewal-homepage diff)",
       "Bash(git -C /Users/bmkim/Documents/kiosk/renewal-homepage diff --cached)",
-      "Bash(git -C /Users/bmkim/Documents/kiosk/renewal-homepage log --oneline -10)"
+      "Bash(git -C /Users/bmkim/Documents/kiosk/renewal-homepage log --oneline -10)",
+      "Bash(export PATH=\"/usr/local/bin:/usr/bin:/bin:/opt/homebrew/bin:$HOME/.nvm/versions/node/*/bin:$PATH\")",
+      "Bash(export PATH=\"/opt/homebrew/bin:$PATH\")",
+      "Bash(pnpm add:*)",
+      "Bash(./node_modules/.bin/graphql-codegen:*)",
+      "Bash(pnpm install:*)",
+      "Bash(node ./node_modules/@graphql-codegen/cli/cjs/bin.js:*)"
     ]
   }
 }

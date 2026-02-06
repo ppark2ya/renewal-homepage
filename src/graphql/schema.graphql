@@ -1,25 +1,592 @@
-type User {
-  id: ID!
+type AuthToken {
+  """JWT 액세스 토큰"""
+  accessToken: String!
+
+  """액세스 토큰 만료 시간 (초)"""
+  expiresIn: Int!
+
+  """리프레시 토큰"""
+  refreshToken: String!
+}
+
+type BaseRateResponse {
+  currencyRates: [ExchangeRateInfo!]!
+}
+
+type CardTrans {
+  """거래 금액"""
+  amount: Int!
+
+  """승인번호"""
+  approveNo: String
+
+  """잔액"""
+  balance: Int!
+
+  """카드 식별 번호"""
+  cardId: String!
+
+  """통화"""
+  currencyCode: String
+
+  """카드번호(마스킹)"""
+  maskedCardNo: String!
+
+  """가맹점명"""
+  merchantName: String!
+
+  """가맹점번호"""
+  merchantNo: String!
+
+  """원거래 금액"""
+  orgAmount: Int
+
+  """원거래 승인번호(취소시 O)"""
+  orgApproveNo: String
+
+  """원거래번호(취소시 O)"""
+  orgTid: String
+
+  """원거래일자(취소시 O)"""
+  orgTransDt: String
+
+  """잔액 이관용 카드 번호 (수신)"""
+  receiveMaskingCardNo: String
+
+  """잔액 이관용 카드 번호 (발신)"""
+  senderMaskingCardNo: String
+
+  """거래 상태"""
+  status: String!
+
+  """거래 상태 코드"""
+  statusCd: String
+
+  """키오스크명"""
+  terminalName: String
+
+  """나이스 거래 ID"""
+  tid: String!
+
+  """거래 일시"""
+  transAt: String!
+
+  """거래 유형"""
+  transType: String!
+}
+
+type CheckVoucherUserEmail {
+  """유저 이메일 데이터 PK"""
+  id: Int
+}
+
+enum CurrencyAmount {
+  AUD_50
+  AUD_100
+  CAD_50
+  CNY_100
+  EUR_10
+  EUR_20
+  EUR_50
+  EUR_100
+  GBP_20
+  HKD_100
+  HKD_500
+  HKD_1000
+  IDR_100000
+  JPY_1000
+  JPY_5000
+  JPY_10000
+  KRW_1000
+  KRW_5000
+  KRW_10000
+  KRW_50000
+  MYR_100
+  PHP_1000
+  SGD_50
+  SGD_100
+  THB_1000
+  TWD_500
+  TWD_1000
+  USD_10
+  USD_20
+  USD_50
+  USD_100
+  VND_500000
+}
+
+enum CurrencyCode {
+  AUD
+  CAD
+  CNY
+  EUR
+  GBP
+  HKD
+  IDR
+  JPY
+  KRW
+  MYR
+  PHP
+  SGD
+  THB
+  TWD
+  USD
+  VND
+}
+
+type ExchangeRateInfo {
+  """통화"""
+  currencyCode: CurrencyCode!
+
+  """이전 환율"""
+  prevSpreadRate: Float
+
+  """현재 환율"""
+  spreadRate: Float!
+
+  """키오스크 PK"""
+  terminalId: Int!
+}
+
+type Filter {
+  """상세 필터 리스트"""
+  filterDetailList: [FilterDetail!]!
+
+  """필터명[서울/경기/부산/...]"""
+  id: Int!
+
+  """필터명"""
   name: String!
-  email: String!
 }
 
-type Query {
-  user(id: ID!): User
-  users: [User!]!
-}
+type FilterDetail {
+  """상세 필터 코드"""
+  code: String!
 
-input CreateUserInput {
+  """상세 필터명"""
   name: String!
-  email: String!
 }
 
-input UpdateUserInput {
-  name: String
-  email: String
+type ForeignWonEnableCurrency {
+  """권종 List"""
+  currencyAmountList: [String!]!
+
+  """통화"""
+  currencyCode: CurrencyCode!
+}
+
+type GetPrepaidCardTransListResponse {
+  """카드 잔액"""
+  cardBalance: Int
+
+  """응답 코드"""
+  code: String
+
+  """추가 내역 여부"""
+  hasNext: Boolean
+  list: [CardTrans!]
+
+  """거래 유형"""
+  transType: String
+}
+
+type KioskDetail {
+  """주소"""
+  addr: String!
+
+  """키오스크 종료 시간"""
+  closeTime: String
+
+  """원화 환전 가능 통화 목록"""
+  currencyList: [ForeignWonEnableCurrency!]!
+
+  """외화 환전 가능 통화 목록"""
+  foreignCurrencyList: [WonForeignEnableCurrency!]!
+
+  """이미지1"""
+  image01: String!
+
+  """이미지2"""
+  image02: String!
+
+  """위도"""
+  lat: String!
+
+  """경도"""
+  lon: String!
+
+  """메모"""
+  memo: String
+
+  """키오스크 시작 시간"""
+  openTime: String
+
+  """키오스크 운영일"""
+  operationDay: String!
+
+  """[미사용] 지원 서비스 리스트"""
+  service: String
+
+  """지원 서비스 리스트"""
+  serviceList: [KioskService!]!
+
+  """기기명"""
+  terminalName: String!
+}
+
+type KioskFilter {
+  """필터 상세 리스트"""
+  filterList: [Filter!]!
+
+  """필터타입[LOCATION, SERVICE, CURRENCY]"""
+  type: String!
+}
+
+type KioskInfo {
+  """주소"""
+  address: String!
+
+  """키오스크 지원 카드 서비스"""
+  cardService: String
+
+  """키오스크 종료 시간"""
+  closeTime: String
+
+  """외화환전 방출 권종"""
+  currencyAmountType: String
+
+  """"""
+  id: Int!
+
+  """이미지1"""
+  image01: String!
+
+  """이미지2"""
+  image02: String!
+
+  """위도"""
+  lat: String!
+
+  """언어[KO, EN, CNG, CNB, JP]"""
+  locale: String!
+
+  """경도"""
+  lon: String!
+
+  """메모"""
+  memo: String
+
+  """키오스크 시작 시간"""
+  openTime: String
+
+  """키오스크 운영일"""
+  operationDay: String!
+
+  """홈페이지 노출 여부"""
+  postingYn: String!
+
+  """[미사용] 지원 서비스 리스트"""
+  service: String!
+
+  """지원 서비스 리스트"""
+  serviceList: [KioskService!]!
+
+  """키오스크 상태"""
+  status: String
+
+  """외화환전 방출 권종 상세"""
+  terminalCurrencyList: [ReleaseCurrency!]!
+
+  """키오스크 PK"""
+  terminalId: Int!
+
+  """기기명"""
+  terminalName: String!
+
+  """기기 고유 번호"""
+  terminalNo: String!
+}
+
+type KioskService {
+  """서비스 코드"""
+  code: String!
+
+  """서비스명"""
+  name: String!
+}
+
+input LoginInput {
+  """비밀번호"""
+  password: String!
+
+  """사용자명"""
+  username: String!
+}
+
+type LoginResult {
+  """2FA 인증 필요 여부"""
+  requiresTwoFactor: Boolean!
+
+  """로그인 성공 시 토큰 (2FA 불필요 시)"""
+  tokens: AuthToken
+
+  """2FA 임시 토큰 (2FA 필요 시)"""
+  twoFactorToken: String
 }
 
 type Mutation {
-  createUser(input: CreateUserInput!): User!
-  updateUser(id: ID!, input: UpdateUserInput!): User!
+  """[홈페이지] 상품권 이메일 등록 여부 확인"""
+  checkEmail(input: RegisterVoucherEmailInput!): CheckVoucherUserEmail!
+
+  """로그인"""
+  login(input: LoginInput!): LoginResult!
+
+  """로그아웃"""
+  logout(refreshToken: String!): Boolean!
+
+  """토큰 갱신"""
+  refreshToken(input: RefreshTokenInput!): AuthToken!
+
+  """[홈페이지] 외화 장입/보충 알림 고객 정보 등록"""
+  registerNotification(input: RegisterNotificationInput!): SuccessResponse!
+
+  """[홈페이지] 상품권 이메일 등록"""
+  registerVoucherEmail(input: RegisterVoucherEmailInput!): SuccessResponse!
+
+  """[홈페이지] 렌탈/제휴 문의하기"""
+  sendCompanyMail(input: SendCompanyInput!): SuccessResponse!
+
+  """[홈페이지] 이메일 문의하기. 고객 CS 처리용"""
+  sendCustomerMail(input: SendCustomerInput!): SuccessResponse!
+
+  """2FA 설정 (JWT 인증 필요)"""
+  setupTwoFactor(input: TotpSetupInput!): TotpSetupResult!
+
+  """[홈페이지] 외화 장입/보충 알림 고객 정보 업데이트 - 수신 여부 변경"""
+  updateNotification(input: UpdateNotificationInput!): SuccessResponse!
+
+  """2FA TOTP 검증"""
+  verifyTwoFactor(input: TotpVerifyInput!): AuthToken!
+}
+
+type PaginatedKiosk {
+  hasNext: Boolean!
+  hasPrevious: Boolean!
+  isEmpty: Boolean!
+  isFirst: Boolean!
+  isLast: Boolean!
+  list: [KioskInfo!]!
+  pageNumber: Int!
+  pageSize: Int!
+  totalElements: Int!
+  totalPages: Int!
+}
+
+type Query {
+  """[홈페이지] 오프라인 원화 환전 최저 환율 조회"""
+  getForeignWonBestRates: BaseRateResponse!
+
+  """[홈페이지] 상품권 이미지 다운로드"""
+  getImageBlob(
+    """이미지명"""
+    imageName: String!
+  ): String!
+
+  """[홈페이지(모바일)] 키오스크 상세 조회"""
+  getKioskDetail(terminalId: Float!): KioskDetail!
+
+  """[홈페이지(모바일)] 키오스크 검색용 필터 목록 조회"""
+  getKioskFilter: [KioskFilter!]!
+
+  """[홈페이지(모바일)] 키오스크 목록 조회"""
+  getKioskList(
+    """키워드"""
+    filterList: [String!]
+
+    """키워드"""
+    keyword: String
+
+    """페이지 번호"""
+    page: Int!
+
+    """보여줄 개수"""
+    size: Int!
+  ): PaginatedKiosk!
+
+  """[홈페이지] 선불카드 - 더프리 거래 이용/충전 내역 및 잔액 조회"""
+  getTheFreeCardTransList(
+    """카드번호"""
+    cardNo: String!
+
+    """CVC 번호"""
+    cvcNo: String!
+
+    """조회 종료일"""
+    endDt: String!
+
+    """유효기간"""
+    exprDt: String!
+
+    """언어 유형"""
+    lang: String!
+
+    """카드 비밀번호"""
+    password: String!
+
+    """조회 시작일"""
+    startDt: String!
+
+    """거래 타입"""
+    transType: String!
+  ): GetPrepaidCardTransListResponse!
+
+  """[홈페이지] 상품권 데이터 조회"""
+  getVoucher(
+    """언어코드"""
+    lang: String!
+
+    """querystring"""
+    q: String!
+  ): GetPrepaidCardTransListResponse!
+
+  """[홈페이지] 오프라인 외화 환전 최저 환율 조회"""
+  getWonForeignBestRates: BaseRateResponse!
+
+  """Health check query"""
+  health: String!
+}
+
+input RefreshTokenInput {
+  """리프레시 토큰"""
+  refreshToken: String!
+}
+
+input RegisterNotificationInput {
+  """통화 List"""
+  currencyList: [CurrencyCode!]!
+
+  """고객 연락처"""
+  phoneNumber: String!
+}
+
+input RegisterVoucherEmailInput {
+  """언어코드"""
+  lang: String!
+
+  """querystring"""
+  q: String!
+
+  """확인 이메일"""
+  userCheckEmail: String!
+
+  """유저 이메일"""
+  userEmail: String!
+}
+
+type ReleaseCurrency {
+  """방출 가능 여부 (최소 수량 감안)"""
+  availableRelease: Boolean!
+
+  """잔여 수량"""
+  count: Int!
+
+  """권종"""
+  currencyAmount: CurrencyAmount!
+
+  """통화"""
+  currencyCode: CurrencyCode!
+
+  """[미사용] 방출 가능 여부"""
+  releaseYn: String
+
+  """판매 여부"""
+  usedCurrency: Boolean!
+}
+
+input SendCompanyInput {
+  """회사명"""
+  company: String
+
+  """문의 내용"""
+  content: String
+
+  """전화번호"""
+  phone: String!
+
+  """고객 이메일"""
+  userEmail: String!
+
+  """고객명"""
+  userName: String!
+}
+
+input SendCustomerInput {
+  """문의 내용"""
+  content: String!
+
+  """고객 이메일"""
+  userEmail: String!
+
+  """고객명"""
+  userName: String!
+}
+
+type SuccessResponse {
+  message: String
+  success: Boolean!
+}
+
+input TotpSetupInput {
+  """TOTP 코드 (6자리)"""
+  totpCode: String
+}
+
+type TotpSetupResult {
+  """2FA 활성화 완료 여부"""
+  enabled: Boolean
+
+  """TOTP Key URI (QR코드 생성용)"""
+  keyUri: String
+
+  """TOTP Secret (QR코드 생성용)"""
+  secret: String
+}
+
+input TotpVerifyInput {
+  """TOTP 6자리 코드"""
+  totpCode: String!
+
+  """2FA 임시 토큰"""
+  twoFactorToken: String!
+}
+
+input UpdateNotificationInput {
+  """고객 연락처"""
+  phoneNumber: String!
+
+  """수신 가능 여부"""
+  sendYn: String!
+}
+
+type WonForeignEnableCurrency {
+  """통화 금액"""
+  amount: Int!
+
+  """방출 가능 여부 (최소 수량 감안)"""
+  availableRelease: Boolean!
+
+  """잔여 수량"""
+  count: Int!
+
+  """권종"""
+  currencyAmount: CurrencyAmount!
+
+  """통화"""
+  currencyCode: CurrencyCode!
+
+  """[미사용] 방출 가능 여부"""
+  releaseYn: String
+
+  """판매 여부"""
+  usedCurrency: Boolean!
 }

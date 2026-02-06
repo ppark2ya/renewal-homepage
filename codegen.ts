@@ -10,6 +10,10 @@ const config: CodegenConfig = {
 
   // 생성 옵션
   generates: {
+    // 로컬 스키마 SDL 파일 생성 (VSCode GraphQL extension용)
+    'src/graphql/schema.graphql': {
+      plugins: ['schema-ast'],
+    },
     'src/graphql/generated/graphql.ts': {
       plugins: [
         {
