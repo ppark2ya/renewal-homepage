@@ -3,6 +3,8 @@ version: "3.8"
 services:
   app:
     image: ${DOCKER_REGISTRY:-registry.example.com}/renewal-homepage:${IMAGE_TAG:-latest}
+    ports:
+      - "15100:15100"
     networks:
       - web
     environment:
@@ -31,7 +33,7 @@ services:
           cpus: "0.25"
           memory: 256M
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:15100/"]
       interval: 30s
       timeout: 10s
       retries: 3
